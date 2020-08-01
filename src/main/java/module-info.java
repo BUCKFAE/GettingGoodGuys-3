@@ -9,4 +9,6 @@ module GettingGoodGuys.main {
     opens gettinggoodguys.gui;
 
     exports gettinggoodguys to org.junit.platform.commons;
+    exports gettinggoodguys.games.tilebased to org.junit.platform.commons;
+    exports gettinggoodguys.games.tilebased.tictactoe to org.junit.platform.commons;
 }
