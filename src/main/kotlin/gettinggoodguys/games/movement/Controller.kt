@@ -5,6 +5,8 @@ import gettinggoodguys.games.MoveOptions
 import gettinggoodguys.games.tilebased.snake.SnakeMoveOptions
 import java.lang.IllegalStateException
 
+//TODO: Delete this in favor of using the GameController interface
+
 class Controller(private val controllerType: Game.GameTypes) {
 
     private enum class EmptyMove: MoveOptions {

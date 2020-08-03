@@ -9,4 +9,12 @@ internal class TileBasedGameTest {
     @Test
     fun getTileAtTest() {
     }
+
+    @Test
+    fun isTileAtTest() {
+    }
+
+    @Test
+    fun getTileInAbsoluteDirTest() {
+    }
 }
