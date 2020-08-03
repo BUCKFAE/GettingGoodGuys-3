@@ -7,32 +7,11 @@ import java.lang.IllegalArgumentException
 
 abstract class TileBasedGame(private val sizeX: Int, private val sizeY: Int, gameType: Game.GameTypes) : Game {
 
+    abstract val defaultTileType: TileType
+
     // Stores all tiles of the gameBoard
-    private val tiles: MutableList<MutableList<Tile>> = mutableListOf()
-
-    init {
-
-        for (currentRow in 0 until sizeY) {
-
-            val currentRowTiles = mutableListOf<Tile>()
-
-            for (currentCol in 0 until sizeX) {
-
-                val defaultTileType: TileType = when (gameType) {
-                    Game.GameTypes.TicTacToe -> TicTacToeTileType.EMPTY_TILE
-                    Game.GameTypes.Snake -> SnakeTileType.EMPTY_TILE
-                }
-
-                // Creating the new tile and adding it to the arraylist
-                val newTile = Tile(currentCol, currentRow, defaultTileType)
-                currentRowTiles.add(newTile)
-            }
-
-            tiles.add(currentRowTiles)
-
-        }
-    }
-
+    private val tiles: Array<Array<Tile>> =
+        Array(sizeY) { row -> Array(sizeX) { column -> Tile(column, row, defaultTileType) } }
 
     /**
      * Gets the tile at the given coordinates
@@ -41,13 +20,17 @@ abstract class TileBasedGame(private val sizeX: Int, private val sizeY: Int, gam
      * @return the tile at the given coordinate
      */
     fun getTileAt(x: Int, y: Int): Tile {
-        if(x < 0 || x >= sizeX) {
-            throw IllegalArgumentException("Unable to access tile at x $x y $y\n" +
-                    "Reason: Bad x value")
+        if (x < 0 || x >= sizeX) {
+            throw IllegalArgumentException(
+                "Unable to access tile at x $x y $y\n" +
+                        "Reason: Bad x value"
+            )
         }
-        if(y < 0 || y >= sizeY) {
-            throw IllegalArgumentException("Unable to access tile at x $x y $y\n" +
-                    "Reason: Bad x value")
+        if (y < 0 || y >= sizeY) {
+            throw IllegalArgumentException(
+                "Unable to access tile at x $x y $y\n" +
+                        "Reason: Bad y value"
+            )
         }
 
         return tiles[x][y]
