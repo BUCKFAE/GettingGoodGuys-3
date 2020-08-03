@@ -9,7 +9,7 @@ import java.lang.IllegalArgumentException
  * @param posY The y position of the tile on the game board
  * @param tileType the TileType of the tile
  */
-class Tile(private val posX: Int, private val posY: Int, tileType: TileType) {
+class Tile(val posX: Int, val posY: Int, tileType: TileType) {
 
     var tileType: TileType = tileType
         set(value) {

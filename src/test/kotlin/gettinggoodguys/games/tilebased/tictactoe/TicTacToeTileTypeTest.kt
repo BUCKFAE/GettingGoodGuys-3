@@ -14,21 +14,21 @@ internal class TicTacToeTileTypeTest {
         assertTrue(TicTacToeTileType.EMPTY_TILE.canBeOverriddenBy(TicTacToeTileType.PLAYER_1_TILE))
         assertTrue(TicTacToeTileType.EMPTY_TILE.canBeOverriddenBy(TicTacToeTileType.PLAYER_2_TILE))
         assertFalse(TicTacToeTileType.EMPTY_TILE.canBeOverriddenBy(SnakeTileType.EMPTY_TILE))
-        assertFalse(TicTacToeTileType.EMPTY_TILE.canBeOverriddenBy(SnakeTileType.SNAKE_TILE))
+        assertFalse(TicTacToeTileType.EMPTY_TILE.canBeOverriddenBy(SnakeTileType.SNAKE_BODY_TILE))
 
         // Testing PLAYER_1_TILE
         assertFalse(TicTacToeTileType.PLAYER_1_TILE.canBeOverriddenBy(TicTacToeTileType.EMPTY_TILE))
         assertFalse(TicTacToeTileType.PLAYER_1_TILE.canBeOverriddenBy(TicTacToeTileType.PLAYER_1_TILE))
         assertFalse(TicTacToeTileType.PLAYER_1_TILE.canBeOverriddenBy(TicTacToeTileType.PLAYER_2_TILE))
         assertFalse(TicTacToeTileType.PLAYER_1_TILE.canBeOverriddenBy(SnakeTileType.EMPTY_TILE))
-        assertFalse(TicTacToeTileType.PLAYER_1_TILE.canBeOverriddenBy(SnakeTileType.SNAKE_TILE))
+        assertFalse(TicTacToeTileType.PLAYER_1_TILE.canBeOverriddenBy(SnakeTileType.SNAKE_BODY_TILE))
 
         // Testing PLAYER_2_TILE
         assertFalse(TicTacToeTileType.PLAYER_2_TILE.canBeOverriddenBy(TicTacToeTileType.EMPTY_TILE))
         assertFalse(TicTacToeTileType.PLAYER_2_TILE.canBeOverriddenBy(TicTacToeTileType.PLAYER_1_TILE))
         assertFalse(TicTacToeTileType.PLAYER_2_TILE.canBeOverriddenBy(TicTacToeTileType.PLAYER_2_TILE))
         assertFalse(TicTacToeTileType.PLAYER_2_TILE.canBeOverriddenBy(SnakeTileType.EMPTY_TILE))
-        assertFalse(TicTacToeTileType.PLAYER_2_TILE.canBeOverriddenBy(SnakeTileType.SNAKE_TILE))
+        assertFalse(TicTacToeTileType.PLAYER_2_TILE.canBeOverriddenBy(SnakeTileType.SNAKE_BODY_TILE))
     }
 
     @Test

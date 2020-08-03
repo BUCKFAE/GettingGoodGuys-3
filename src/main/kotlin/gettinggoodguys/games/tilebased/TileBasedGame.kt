@@ -1,17 +1,13 @@
 package gettinggoodguys.games.tilebased
 
+import gettinggoodguys.games.movement.directions.AbsoluteDirection
 import gettinggoodguys.games.Game
-import gettinggoodguys.games.tilebased.snake.SnakeTileType
-import gettinggoodguys.games.tilebased.tictactoe.TicTacToeTileType
 import java.lang.IllegalArgumentException
 
-abstract class TileBasedGame(private val sizeX: Int, private val sizeY: Int, gameType: Game.GameTypes) : Game {
-
-    abstract val defaultTileType: TileType
+abstract class TileBasedGame(private val gameBoardSizeX: Int, private val gameBoardSizeY: Int, defaultTileType: TileType) : Game {
 
     // Stores all tiles of the gameBoard
-    private val tiles: Array<Array<Tile>> =
-        Array(sizeY) { row -> Array(sizeX) { column -> Tile(column, row, defaultTileType) } }
+    private  val tiles: Array<Array<Tile>> = Array(gameBoardSizeX) { row -> Array(gameBoardSizeY) { column -> Tile(row, column, defaultTileType) } }
 
     /**
      * Gets the tile at the given coordinates
@@ -20,21 +16,41 @@ abstract class TileBasedGame(private val sizeX: Int, private val sizeY: Int, gam
      * @return the tile at the given coordinate
      */
     fun getTileAt(x: Int, y: Int): Tile {
-        if (x < 0 || x >= sizeX) {
+        if (!isTileAt(x, y)) {
             throw IllegalArgumentException(
                 "Unable to access tile at x $x y $y\n" +
-                        "Reason: Bad x value"
-            )
-        }
-        if (y < 0 || y >= sizeY) {
-            throw IllegalArgumentException(
-                "Unable to access tile at x $x y $y\n" +
-                        "Reason: Bad y value"
+                        "Reason: There is no tile at the given coordinates"
             )
         }
 
         return tiles[x][y]
     }
+
+    fun isTileAt(x: Int, y: Int): Boolean {
+        if(x < 0 || x >= gameBoardSizeX || y < 0 || y >= gameBoardSizeY) {
+            return false
+        }
+        return true
+    }
+
+    fun getTileInAbsoluteDir(tileX: Int, tileY: Int, absoluteDirection: AbsoluteDirection): Tile? {
+
+        var newX = tileX
+        var newY = tileY
+
+        when (absoluteDirection) {
+            AbsoluteDirection.UP -> { newY-- }
+            AbsoluteDirection.RIGHT -> { newX++ }
+            AbsoluteDirection.DOWN -> { newY++ }
+            AbsoluteDirection.LEFT -> { newX-- }
+        }
+
+        // Return either the tile or null if there is no tile in this direction
+        if(isTileAt(newX, newY)) return getTileAt(newX, newY)
+        return null
+    }
+
+
 
     /**
      * Returns a pretty String representing the current game

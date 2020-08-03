@@ -1,18 +1,16 @@
 package gettinggoodguys.games.tilebased.tictactoe
 
-import gettinggoodguys.games.Game
 import gettinggoodguys.games.tilebased.TileBasedGame
 import gettinggoodguys.games.tilebased.TileType
 
-class TicTacToeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameSizeY, Game.GameTypes.TicTacToe) {
+class TicTacToeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameSizeY, TicTacToeTileType.EMPTY_TILE) {
 
-    override val defaultTileType: TileType = TicTacToeTileType.EMPTY_TILE
 
     override fun step() {
         TODO("Not yet implemented")
     }
 
-    override fun isAlive() {
+    override fun isAlive(): Boolean {
         TODO("Not yet implemented")
     }
 }

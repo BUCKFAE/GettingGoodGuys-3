@@ -12,5 +12,5 @@ interface Game {
      */
     fun step()
 
-    fun isAlive()
+    fun isAlive(): Boolean
 }
