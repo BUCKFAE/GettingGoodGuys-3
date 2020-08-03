@@ -3,6 +3,7 @@ package gettinggoodguys.games.tilebased
 import gettinggoodguys.games.Game
 import gettinggoodguys.games.tilebased.snake.SnakeTileType
 import gettinggoodguys.games.tilebased.tictactoe.TicTacToeTileType
+import java.lang.IllegalArgumentException
 
 abstract class TileBasedGame(private val sizeX: Int, private val sizeY: Int, gameType: Game.GameTypes) : Game {
 
@@ -33,8 +34,22 @@ abstract class TileBasedGame(private val sizeX: Int, private val sizeY: Int, gam
     }
 
 
+    /**
+     * Gets the tile at the given coordinates
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return the tile at the given coordinate
+     */
     fun getTileAt(x: Int, y: Int): Tile {
-        // TODO: Check for bad x / y values
+        if(x < 0 || x >= sizeX) {
+            throw IllegalArgumentException("Unable to access tile at x $x y $y\n" +
+                    "Reason: Bad x value")
+        }
+        if(y < 0 || y >= sizeY) {
+            throw IllegalArgumentException("Unable to access tile at x $x y $y\n" +
+                    "Reason: Bad x value")
+        }
+
         return tiles[x][y]
     }
 
@@ -105,7 +120,7 @@ abstract class TileBasedGame(private val sizeX: Int, private val sizeY: Int, gam
                         val currTileY = y / 2
 
                         // Appending the TileInfo of the current Tile
-                        sb.append(tiles[currTileX][currTileY].getTileType().toString())
+                        sb.append(tiles[currTileX][currTileY].tileType.toString())
                     }
                 }
             }
