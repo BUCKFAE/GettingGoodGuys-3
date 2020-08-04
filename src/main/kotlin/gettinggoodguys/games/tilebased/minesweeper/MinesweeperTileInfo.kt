@@ -5,7 +5,7 @@ import gettinggoodguys.games.tilebased.TileType
 data class MinesweeperTileInfo(
     var clicked: Boolean = false,
     var flagged: Boolean = false,
-    val type: MinesweeperTileType
+    val type: MinesweeperTileType = MinesweeperTileType.EMPTY
 ) : TileType {
     override fun canBeOverriddenBy(tileType: TileType): Boolean {
         if (type == MinesweeperTileType.EMPTY) {

@@ -4,10 +4,10 @@ import gettinggoodguys.games.movement.directions.AbsoluteDirection
 import gettinggoodguys.games.Game
 import java.lang.IllegalArgumentException
 
-abstract class TileBasedGame(private val gameBoardSizeX: Int, private val gameBoardSizeY: Int, defaultTileType: TileType) : Game {
+abstract class TileBasedGame(protected val gameBoardSizeX: Int, protected val gameBoardSizeY: Int, defaultTileType: TileType) : Game {
 
     // Stores all tiles of the gameBoard
-    private  val tiles: Array<Array<Tile>> = Array(gameBoardSizeX) { row -> Array(gameBoardSizeY) { column -> Tile(row, column, defaultTileType) } }
+    private val tiles: Array<Array<Tile>> = Array(gameBoardSizeX) { row -> Array(gameBoardSizeY) { column -> Tile(row, column, defaultTileType) } }
 
     /**
      * Gets the tile at the given coordinates
