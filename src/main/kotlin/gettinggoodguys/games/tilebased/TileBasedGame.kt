@@ -2,12 +2,21 @@ package gettinggoodguys.games.tilebased
 
 import gettinggoodguys.games.movement.directions.AbsoluteDirection
 import gettinggoodguys.games.Game
+import gettinggoodguys.games.tilebased.tile.NoTileAtCoordinatesException
+import gettinggoodguys.games.tilebased.tile.Tile
+import gettinggoodguys.games.tilebased.tile.TileType
 import java.lang.IllegalArgumentException
 
-abstract class TileBasedGame(private val gameBoardSizeX: Int, private val gameBoardSizeY: Int, defaultTileType: TileType) : Game {
+abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, defaultTileType: TileType) : Game {
 
     // Stores all tiles of the gameBoard
-    private  val tiles: Array<Array<Tile>> = Array(gameBoardSizeX) { row -> Array(gameBoardSizeY) { column -> Tile(row, column, defaultTileType) } }
+    private  val tiles: Array<Array<Tile>> = Array(gameBoardSizeX) { row -> Array(gameBoardSizeY) { column ->
+        Tile(
+            row,
+            column,
+            defaultTileType
+        )
+    } }
 
     /**
      * Gets the tile at the given coordinates
@@ -17,10 +26,7 @@ abstract class TileBasedGame(private val gameBoardSizeX: Int, private val gameBo
      */
     fun getTileAt(x: Int, y: Int): Tile {
         if (!isTileAt(x, y)) {
-            throw IllegalArgumentException(
-                "Unable to access tile at x $x y $y\n" +
-                        "Reason: There is no tile at the given coordinates"
-            )
+            throw NoTileAtCoordinatesException(x, y, this)
         }
 
         return tiles[x][y]

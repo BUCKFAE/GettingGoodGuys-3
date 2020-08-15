@@ -1,4 +1,4 @@
-package gettinggoodguys.games.tilebased
+package gettinggoodguys.games.tilebased.tile
 
 import gettinggoodguys.games.tilebased.snake.SnakeTileType
 import org.junit.jupiter.api.Test

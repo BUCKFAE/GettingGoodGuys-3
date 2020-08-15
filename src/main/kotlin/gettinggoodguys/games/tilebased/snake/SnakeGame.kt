@@ -2,7 +2,7 @@ package gettinggoodguys.games.tilebased.snake
 
 import gettinggoodguys.games.movement.directions.AbsoluteDirection
 import gettinggoodguys.games.movement.directions.RelativeDirection
-import gettinggoodguys.games.tilebased.Tile
+import gettinggoodguys.games.tilebased.tile.Tile
 import gettinggoodguys.games.tilebased.TileBasedGame
 
 class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameSizeY, defaultTileType = SnakeTileType.EMPTY_TILE) {

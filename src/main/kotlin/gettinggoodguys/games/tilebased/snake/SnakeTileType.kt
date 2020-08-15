@@ -1,7 +1,8 @@
 package gettinggoodguys.games.tilebased.snake
 
-import gettinggoodguys.games.tilebased.TileType
+import gettinggoodguys.games.tilebased.tile.TileType
 
+//TODO: An empty tile cannot be overriden by a body tile, only by head / food.
 enum class SnakeTileType: TileType {
     SNAKE_BODY_TILE {
         override fun canBeOverriddenBy(tileType: TileType): Boolean {
