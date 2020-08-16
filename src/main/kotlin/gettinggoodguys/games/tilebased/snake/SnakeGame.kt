@@ -38,6 +38,8 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
             val headPosX = gameSizeX / 2
             val headPosY = gameSizeY / 2
 
+            // TODO: Throw error when there is no tile at the given spot
+
             // Getting the tile from the gameboard as reference
             val newTile = getTileAt(headPosX, headPosY - currentBodyPieceID)
 

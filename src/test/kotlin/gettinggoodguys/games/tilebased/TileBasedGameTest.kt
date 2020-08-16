@@ -10,6 +10,7 @@ import kotlin.test.assertFailsWith
 
 import org.junit.jupiter.api.Assertions.*
 import java.lang.IllegalArgumentException
+import kotlin.test.assertNull
 
 internal class TileBasedGameTest {
 
@@ -97,12 +98,107 @@ internal class TileBasedGameTest {
     @Test
     fun getTileInAbsoluteDirTest() {
 
-        val snakeGame = SnakeGame(3, 3)
+        val snakeGame = SnakeGame(5, 4)
 
-        //TODO: Figure out why this is broken
+        /*
+         * Testing all directions from the field 1 1
+         */
+
+        // UP
         assertEquals(1, snakeGame.getTileInAbsoluteDir(1, 1, AbsoluteDirection.UP)?.posX)
-        //assertEquals(0, snakeGame.getTileInAbsoluteDir(1, 1, AbsoluteDirection.UP)?.posY)
+        assertEquals(0, snakeGame.getTileInAbsoluteDir(1, 1, AbsoluteDirection.UP)?.posY)
 
+        // Left
+        assertEquals(0, snakeGame.getTileInAbsoluteDir(1, 1, AbsoluteDirection.LEFT)?.posX)
+        assertEquals(1, snakeGame.getTileInAbsoluteDir(1, 1, AbsoluteDirection.LEFT)?.posY)
+
+        // Down
+        assertEquals(1, snakeGame.getTileInAbsoluteDir(1, 1, AbsoluteDirection.DOWN)?.posX)
+        assertEquals(2, snakeGame.getTileInAbsoluteDir(1, 1, AbsoluteDirection.DOWN)?.posY)
+
+        // Right
+        assertEquals(2, snakeGame.getTileInAbsoluteDir(1, 1, AbsoluteDirection.RIGHT)?.posX)
+        assertEquals(1, snakeGame.getTileInAbsoluteDir(1, 1, AbsoluteDirection.RIGHT)?.posY)
+
+        /*
+         * Testing all directions from the field 0 0
+         */
+
+        // UP
+        assertNull(snakeGame.getTileInAbsoluteDir(0, 0, AbsoluteDirection.UP))
+        assertNull(snakeGame.getTileInAbsoluteDir(0, 0, AbsoluteDirection.UP))
+
+        // Left
+        assertNull(snakeGame.getTileInAbsoluteDir(0, 0, AbsoluteDirection.LEFT))
+        assertNull(snakeGame.getTileInAbsoluteDir(0, 0, AbsoluteDirection.LEFT))
+
+        // Down
+        assertEquals(0, snakeGame.getTileInAbsoluteDir(0, 0, AbsoluteDirection.DOWN)?.posX)
+        assertEquals(1, snakeGame.getTileInAbsoluteDir(0, 0, AbsoluteDirection.DOWN)?.posY)
+
+        // Right
+        assertEquals(1, snakeGame.getTileInAbsoluteDir(0, 0, AbsoluteDirection.RIGHT)?.posX)
+        assertEquals(0, snakeGame.getTileInAbsoluteDir(0, 0, AbsoluteDirection.RIGHT)?.posY)
+
+        /*
+         * Testing all directions from the field 4 0
+         */
+
+        // UP
+        assertNull(snakeGame.getTileInAbsoluteDir(4, 0, AbsoluteDirection.UP))
+        assertNull(snakeGame.getTileInAbsoluteDir(4, 0, AbsoluteDirection.UP))
+
+        // Left
+        assertEquals(3, snakeGame.getTileInAbsoluteDir(4, 0, AbsoluteDirection.LEFT)?.posX)
+        assertEquals(0, snakeGame.getTileInAbsoluteDir(4, 0, AbsoluteDirection.LEFT)?.posY)
+
+        // Down
+        assertEquals(4, snakeGame.getTileInAbsoluteDir(4, 0, AbsoluteDirection.DOWN)?.posX)
+        assertEquals(1, snakeGame.getTileInAbsoluteDir(4, 0, AbsoluteDirection.DOWN)?.posY)
+
+        // Right
+        assertNull(snakeGame.getTileInAbsoluteDir(4, 0, AbsoluteDirection.RIGHT))
+        assertNull(snakeGame.getTileInAbsoluteDir(4, 0, AbsoluteDirection.RIGHT))
+
+        /*
+         * Testing all directions from the field 0 3
+         */
+
+        // UP
+        assertEquals(0, snakeGame.getTileInAbsoluteDir(0, 3, AbsoluteDirection.UP)?.posX)
+        assertEquals(2, snakeGame.getTileInAbsoluteDir(0, 3, AbsoluteDirection.UP)?.posY)
+
+        // Left
+        assertNull(snakeGame.getTileInAbsoluteDir(0, 3, AbsoluteDirection.LEFT))
+        assertNull(snakeGame.getTileInAbsoluteDir(0, 3, AbsoluteDirection.LEFT))
+
+        // Down
+        assertNull(snakeGame.getTileInAbsoluteDir(0, 3, AbsoluteDirection.DOWN))
+        assertNull(snakeGame.getTileInAbsoluteDir(0, 3, AbsoluteDirection.DOWN))
+
+        // Right
+        assertEquals(1, snakeGame.getTileInAbsoluteDir(0, 3, AbsoluteDirection.RIGHT)?.posX)
+        assertEquals(3, snakeGame.getTileInAbsoluteDir(0, 3, AbsoluteDirection.RIGHT)?.posY)
+
+        /*
+         * Testing all directions from the field 4 3
+         */
+
+        // UP
+        assertEquals(4, snakeGame.getTileInAbsoluteDir(4, 3, AbsoluteDirection.UP)?.posX)
+        assertEquals(2, snakeGame.getTileInAbsoluteDir(4, 3, AbsoluteDirection.UP)?.posY)
+
+        // Left
+        assertEquals(3, snakeGame.getTileInAbsoluteDir(4, 3, AbsoluteDirection.LEFT)?.posX)
+        assertEquals(3, snakeGame.getTileInAbsoluteDir(4, 3, AbsoluteDirection.LEFT)?.posY)
+
+        // Down
+        assertNull(snakeGame.getTileInAbsoluteDir(4, 3, AbsoluteDirection.DOWN))
+        assertNull(snakeGame.getTileInAbsoluteDir(4, 3, AbsoluteDirection.DOWN))
+
+        // Right
+        assertNull(snakeGame.getTileInAbsoluteDir(4, 3, AbsoluteDirection.RIGHT))
+        assertNull(snakeGame.getTileInAbsoluteDir(4, 3, AbsoluteDirection.RIGHT))
     }
 
     @Test
