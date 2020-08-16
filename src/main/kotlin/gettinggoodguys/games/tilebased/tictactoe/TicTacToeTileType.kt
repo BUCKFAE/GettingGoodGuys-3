@@ -1,6 +1,6 @@
 package gettinggoodguys.games.tilebased.tictactoe
 
-import gettinggoodguys.games.tilebased.TileType
+import gettinggoodguys.games.tilebased.tile.TileType
 
 enum class TicTacToeTileType : TileType {
     PLAYER_1_TILE {

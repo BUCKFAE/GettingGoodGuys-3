@@ -13,6 +13,7 @@ module GettingGoodGuys.main {
 
     exports gettinggoodguys.games.tilebased.tictactoe to org.junit.platform.commons;
     exports gettinggoodguys.games.tilebased.snake to org.junit.platform.commons;
+    exports gettinggoodguys.games.tilebased.tile to org.junit.platform.commons;
 
     exports gettinggoodguys.games.movement.directions to org.junit.platform.commons;
 }

@@ -2,7 +2,7 @@ package gettinggoodguys.games.tilebased.snake
 
 import gettinggoodguys.games.movement.directions.AbsoluteDirection
 import gettinggoodguys.games.movement.directions.RelativeDirection
-import gettinggoodguys.games.tilebased.Tile
+import gettinggoodguys.games.tilebased.tile.Tile
 import gettinggoodguys.games.tilebased.TileBasedGame
 
 class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameSizeY, defaultTileType = SnakeTileType.EMPTY_TILE) {
@@ -37,6 +37,8 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
             // Calculating the coordinates for the head
             val headPosX = gameSizeX / 2
             val headPosY = gameSizeY / 2
+
+            // TODO: Throw error when there is no tile at the given spot
 
             // Getting the tile from the gameboard as reference
             val newTile = getTileAt(headPosX, headPosY - currentBodyPieceID)

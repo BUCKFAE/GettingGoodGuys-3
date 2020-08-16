@@ -1,6 +1,6 @@
 package gettinggoodguys.games.tilebased.minesweeper
 
-import gettinggoodguys.games.tilebased.TileType
+import gettinggoodguys.games.tilebased.tile.TileType
 
 data class MinesweeperTileInfo(
     var clicked: Boolean = false,
