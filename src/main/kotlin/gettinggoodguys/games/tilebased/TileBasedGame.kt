@@ -32,6 +32,12 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
         return tiles[x][y]
     }
 
+    /**
+     * Checks if there is a tile a the given coordinates
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return true if there is a tile, false if there is no tile
+     */
     fun isTileAt(x: Int, y: Int): Boolean {
         if(x < 0 || x >= gameBoardSizeX || y < 0 || y >= gameBoardSizeY) {
             return false
@@ -39,6 +45,14 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
         return true
     }
 
+    /**
+     * Gets the tile in the given absolute direction
+     * This is useful if you want to e.g. get the tile above another tile
+     * @param tileX the x coordinate of the start tile
+     * @param tileY the y coordinate of the start tile
+     * @param absoluteDirection the direction where we want to get the tile
+     * @return returns either the Tile in the given direction or null if there is no tile in that direction
+     */
     fun getTileInAbsoluteDir(tileX: Int, tileY: Int, absoluteDirection: AbsoluteDirection): Tile? {
 
         var newX = tileX
