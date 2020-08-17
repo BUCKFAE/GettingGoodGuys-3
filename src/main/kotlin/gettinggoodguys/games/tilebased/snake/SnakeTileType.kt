@@ -10,6 +10,10 @@ enum class SnakeTileType: TileType {
             return false
         }
 
+        override fun extendedToString(): String {
+            return "SnakeTile = ${toString()}"
+        }
+
         override fun toString(): String {
             return "S"
         }
@@ -18,6 +22,10 @@ enum class SnakeTileType: TileType {
         override fun canBeOverriddenBy(tileType: TileType): Boolean {
             if(tileType is SnakeTileType) return true
             return false
+        }
+
+        override fun extendedToString(): String {
+            return "SnakeTile = ${toString()}"
         }
 
         override fun toString(): String {
@@ -30,6 +38,10 @@ enum class SnakeTileType: TileType {
             return false
         }
 
+        override fun extendedToString(): String {
+            return "SnakeTile = ${toString()}"
+        }
+
         override fun toString(): String {
             return "F"
         }
@@ -38,6 +50,10 @@ enum class SnakeTileType: TileType {
         override fun canBeOverriddenBy(tileType: TileType): Boolean {
             if(tileType is SnakeTileType) return true
             return false
+        }
+
+        override fun extendedToString(): String {
+            return "SnakeTile = ${toString()}"
         }
 
         override fun toString(): String {

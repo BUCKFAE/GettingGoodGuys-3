@@ -14,5 +14,5 @@ interface TileType {
      */
     fun canBeOverriddenBy(tileType: TileType): Boolean
 
-    // Todo: Write alternative toString that displays more info (e.g if the tile is a TicTacToeTile or a SnakeTile)
+    fun extendedToString(): String
 }
