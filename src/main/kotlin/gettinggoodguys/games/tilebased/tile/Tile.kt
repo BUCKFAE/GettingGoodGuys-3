@@ -1,7 +1,5 @@
 package gettinggoodguys.games.tilebased.tile
 
-import java.lang.IllegalArgumentException
-
 /**
  * Represents a single Tile on a TileBasedGame
  *

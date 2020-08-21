@@ -147,4 +147,9 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
         }
         return sb.toString()
     }
+
+    // TODO: Write better toString
+    override fun toString(): String {
+        return toPrettyString()
+    }
 }

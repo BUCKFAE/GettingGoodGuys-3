@@ -1,5 +1,6 @@
 package gettinggoodguys.games.tilebased.snake
 
+import gettinggoodguys.games.MoveOptions
 import gettinggoodguys.games.movement.directions.AbsoluteDirection
 import gettinggoodguys.games.movement.directions.RelativeDirection
 import gettinggoodguys.games.tilebased.tile.Tile
@@ -57,6 +58,11 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
 
     fun moveToRelativeDir(relativeDirection: RelativeDirection) {
 
+        // TODO: Improve this
+        if(!isAlive()) {
+            throw IllegalStateException("Tried to move a dead Snake.")
+        }
+
         // Storing the coordinates of the head
         val headPosX = snakeBodyTiles[0].posX
         val headPosY = snakeBodyTiles[0].posY
@@ -68,7 +74,7 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
 
         // The snake hit a wall
         if(newHeadTile == null) {
-            println("Hit a wall")
+            isAlive = false
         }
         // The snake did not hit a wall
         else {
@@ -105,8 +111,12 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
 
     }
 
-    override fun step() {
-        TODO("Not yet implemented")
+    override fun step(moveOption: MoveOptions) {
+        when (moveOption) {
+            SnakeMoveOptions.AHEAD -> {moveToRelativeDir(RelativeDirection.AHEAD)}
+            SnakeMoveOptions.LEFT -> {moveToRelativeDir(RelativeDirection.LEFT)}
+            SnakeMoveOptions.RIGHT -> {moveToRelativeDir(RelativeDirection.RIGHT)}
+        }
     }
 
     override fun isAlive(): Boolean {
