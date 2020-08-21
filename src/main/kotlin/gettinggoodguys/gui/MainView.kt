@@ -15,12 +15,20 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
         center {
             anchorpane() {
 
-                rectangle(10, 10, 10, 10) {
-                    fill = Color.ORANGE;
+                datagrid(controller.numbers) {
+                    cellHeight = 40.0
+                    cellWidth = 40.0
+
+                    maxCellsInRow = controller.gameSizeX
+
+                    cellCache {
+                        println("Curr $it")
+                            label(it)
+
+                    }
                 }
-                rectangle(20, 10, 10, 10) {
-                    fill = Color.RED;
-                }
+
+
 
                 button(" Step ") {
                     action {

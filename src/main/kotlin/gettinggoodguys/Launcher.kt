@@ -16,10 +16,6 @@ fun main(args: Array<String>) {
     println("The program has been started")
     println("Commandline arguments: ${args.contentToString()}")
 
-    val aiMainLoop = AIMainLoop()
-
-    aiMainLoop.stepLoop()
-
 
 
     launch(Main::class.java, *args)

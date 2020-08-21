@@ -7,7 +7,7 @@ class AIMainLoop: MainLoop {
 
     private val amountOfGames = 1
 
-    private val controllerArrayList = ArrayList<AIGameController>()
+    val controllerArrayList = ArrayList<AIGameController>()
 
     init {
         for (currentGame in 1..amountOfGames) {
