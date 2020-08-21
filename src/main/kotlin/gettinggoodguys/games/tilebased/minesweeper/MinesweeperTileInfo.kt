@@ -7,18 +7,21 @@ data class MinesweeperTileInfo(
     var flagged: Boolean = false,
     val type: MinesweeperTileType = MinesweeperTileType.EMPTY
 ) : TileType {
+    /**
+     * Every type can be override by any other minesweeper type
+     * Empty can always be overridden
+     * Every number can be overridden by any higher (or one lower number)
+     * A bomb tile can be overridden if it is the first move
+     */
     override fun canBeOverriddenBy(tileType: TileType): Boolean {
-        if (type == MinesweeperTileType.EMPTY) {
-            return true
-        }
-        return false
+        return tileType is MinesweeperTileInfo
     }
 
     override fun toString(): String {
         return when {
             !flagged && !clicked -> "?"
             flagged && !clicked -> "F"
-            !flagged && clicked -> when (type) {
+            clicked -> when (type) {
                 MinesweeperTileType.EMPTY -> "?"
                 MinesweeperTileType.ZERO -> " "
                 MinesweeperTileType.ONE -> "1"
