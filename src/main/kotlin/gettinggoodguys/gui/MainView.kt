@@ -23,7 +23,7 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
 
                     cellCache {
                         println("Curr $it")
-                            label(it)
+                            label(it.toString())
 
                     }
                 }
@@ -35,6 +35,7 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
                         runAsync {
                             controller.stepGames() // Stepping all games
                         } ui {
+                            controller.numbers.clear()
                             controller.updateGames() // Updating all games on the ui
                         }
                     }

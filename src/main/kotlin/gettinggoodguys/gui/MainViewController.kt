@@ -23,8 +23,8 @@ class MainViewController : Controller() {
     }
 
     fun updateGames() {
-        
-        numbers.clear()
+
+        //numbers.clear()
 
         for (currentController in aiMainLoop.controllerArrayList) {
             val currentTileBasedGame: TileBasedGame = currentController.game as TileBasedGame
