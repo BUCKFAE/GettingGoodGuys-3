@@ -18,4 +18,5 @@ module GettingGoodGuys.main {
 
     exports gettinggoodguys.games.movement.directions to org.junit.platform.commons;
 
+
 }

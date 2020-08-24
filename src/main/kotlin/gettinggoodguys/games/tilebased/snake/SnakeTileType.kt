@@ -57,7 +57,7 @@ enum class SnakeTileType: TileType {
         }
 
         override fun toString(): String {
-            return "x"
+            return " "
         }
     };
 }

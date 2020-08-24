@@ -38,8 +38,6 @@ class AIMainLoop: MainLoop {
                 val nextMove = currentGameController.getNextMove()
                 currentGameController.game.step(nextMove)
 
-                println(currentGameController.game.toString())
-
                 // There is at least one game alive
                 allGamesAreDead = false
             }
