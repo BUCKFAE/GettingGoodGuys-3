@@ -8,6 +8,7 @@ module GettingGoodGuys.main {
     requires kotlin.stdlib;
     opens gettinggoodguys.gui;
 
+
     exports gettinggoodguys to org.junit.platform.commons;
     exports gettinggoodguys.games.tilebased to org.junit.platform.commons;
 
@@ -16,4 +17,6 @@ module GettingGoodGuys.main {
     exports gettinggoodguys.games.tilebased.tile to org.junit.platform.commons;
 
     exports gettinggoodguys.games.movement.directions to org.junit.platform.commons;
+
+
 }

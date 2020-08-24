@@ -4,8 +4,13 @@ import gettinggoodguys.games.tilebased.tile.TileType
 
 enum class TicTacToeTileType : TileType {
     PLAYER_1_TILE {
+
         override fun canBeOverriddenBy(tileType: TileType): Boolean {
             return false
+        }
+
+        override fun extendedToString(): String {
+            return "TicTacToeTile = ${toString()}"
         }
 
         override fun toString(): String {
@@ -18,6 +23,10 @@ enum class TicTacToeTileType : TileType {
             return false
         }
 
+        override fun extendedToString(): String {
+            return "TicTacToeTile = ${toString()}"
+        }
+
         override fun toString(): String {
             return "O"
         }
@@ -27,6 +36,10 @@ enum class TicTacToeTileType : TileType {
         override fun canBeOverriddenBy(tileType: TileType): Boolean {
             if(tileType == PLAYER_1_TILE || tileType == PLAYER_2_TILE) return true
             return false
+        }
+
+        override fun extendedToString(): String {
+            return "TicTacToeTile = ${toString()}"
         }
 
         override fun toString(): String {

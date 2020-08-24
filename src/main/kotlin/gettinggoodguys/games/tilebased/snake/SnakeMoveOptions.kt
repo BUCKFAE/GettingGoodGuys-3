@@ -4,5 +4,7 @@ import gettinggoodguys.games.MoveOptions
 
 enum class SnakeMoveOptions: MoveOptions {
 
-    AHEAD;
+    AHEAD,
+    LEFT,
+    RIGHT;
 }

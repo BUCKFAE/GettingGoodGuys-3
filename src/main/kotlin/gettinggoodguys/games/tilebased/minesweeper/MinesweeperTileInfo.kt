@@ -14,6 +14,10 @@ data class MinesweeperTileInfo(
         return false
     }
 
+    override fun extendedToString(): String {
+        return "MinesweeperTile = ${toString()}"
+    }
+
     override fun toString(): String {
         return when {
             !flagged && !clicked -> "?"
