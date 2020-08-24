@@ -5,13 +5,12 @@ import gettinggoodguys.games.tilebased.snake.ai.SnakeRandomAIGameController
 
 class AIMainLoop: MainLoop {
 
-    private val amountOfGames = 1
+    private val amountOfGames = 6
 
     val controllerArrayList = ArrayList<AIGameController>()
 
     init {
         for (currentGame in 1..amountOfGames) {
-            println("Created a new game lol")
             val currentRandomSnakeController = SnakeRandomAIGameController()
             controllerArrayList.add(currentRandomSnakeController)
         }
