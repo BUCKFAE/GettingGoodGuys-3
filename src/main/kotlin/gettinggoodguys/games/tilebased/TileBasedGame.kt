@@ -24,7 +24,7 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
      * @param y the y coordinate
      * @return the tile at the given coordinate
      */
-    public fun getTileAt(x: Int, y: Int): Tile {
+    fun getTileAt(x: Int, y: Int): Tile {
         if (!isTileAt(x, y)) {
             throw NoTileAtCoordinatesException(x, y, this)
         }
