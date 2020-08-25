@@ -1,6 +1,4 @@
-package gettinggoodguys.games.tilebased
-
-import java.lang.IllegalArgumentException
+package gettinggoodguys.games.tilebased.tile
 
 /**
  * Represents a single Tile on a TileBasedGame
@@ -14,9 +12,11 @@ class Tile(val posX: Int, val posY: Int, tileType: TileType) {
     var tileType: TileType = tileType
         set(value) {
         if(tileType.canBeOverriddenBy(value)) field = value
-        else throw IllegalArgumentException("Could not override tileType of tile at x $posX y $posY\n" +
-                "Old tileType $field\n" +
-                "New tileType $value")
+        else throw IllegalTileTypeOverrideException(this, value)
     }
 
+    override fun toString(): String {
+        return "Tile: x = $posX y = $posY tileType = \"${tileType.extendedToString()}\""
+    }
 }
+

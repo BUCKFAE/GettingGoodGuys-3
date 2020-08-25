@@ -1,12 +1,17 @@
 package gettinggoodguys.games.tilebased.snake
 
-import gettinggoodguys.games.tilebased.TileType
+import gettinggoodguys.games.tilebased.tile.TileType
 
+//TODO: An empty tile cannot be overriden by a body tile, only by head / food.
 enum class SnakeTileType: TileType {
     SNAKE_BODY_TILE {
         override fun canBeOverriddenBy(tileType: TileType): Boolean {
             if(tileType is SnakeTileType) return true
             return false
+        }
+
+        override fun extendedToString(): String {
+            return "SnakeTile = ${toString()}"
         }
 
         override fun toString(): String {
@@ -19,6 +24,10 @@ enum class SnakeTileType: TileType {
             return false
         }
 
+        override fun extendedToString(): String {
+            return "SnakeTile = ${toString()}"
+        }
+
         override fun toString(): String {
             return "H"
         }
@@ -29,6 +38,10 @@ enum class SnakeTileType: TileType {
             return false
         }
 
+        override fun extendedToString(): String {
+            return "SnakeTile = ${toString()}"
+        }
+
         override fun toString(): String {
             return "F"
         }
@@ -37,6 +50,10 @@ enum class SnakeTileType: TileType {
         override fun canBeOverriddenBy(tileType: TileType): Boolean {
             if(tileType is SnakeTileType) return true
             return false
+        }
+
+        override fun extendedToString(): String {
+            return "SnakeTile = ${toString()}"
         }
 
         override fun toString(): String {

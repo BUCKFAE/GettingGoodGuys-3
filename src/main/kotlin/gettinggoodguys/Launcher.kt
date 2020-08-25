@@ -1,31 +1,22 @@
 package gettinggoodguys
 
-import gettinggoodguys.games.Game
-import gettinggoodguys.games.movement.Controller
 import gettinggoodguys.games.movement.directions.RelativeDirection
 import gettinggoodguys.games.tilebased.snake.SnakeGame
-import gettinggoodguys.games.tilebased.snake.SnakeTileType
-import gettinggoodguys.games.tilebased.tictactoe.TicTacToeMoveOptions
+import gettinggoodguys.games.tilebased.snake.SnakeMoveOptions
+import gettinggoodguys.games.tilebased.snake.ai.SnakeRandomAIGameController
+import gettinggoodguys.games.tilebased.tictactoe.TicTacToeTileType
+import gettinggoodguys.games.tilebased.tile.IllegalTileTypeOverrideException
+import gettinggoodguys.games.tilebased.tile.NoTileAtCoordinatesException
 import gettinggoodguys.gui.Main
+import gettinggoodguys.loop.AIMainLoop
 import javafx.application.Application.launch
 
 fun main(args: Array<String>) {
 
-    println("The program has been started!")
+    println("The program has been started")
+    println("Commandline arguments: ${args.contentToString()}")
 
-    val snakeGame = SnakeGame(5, 7)
 
-    println(snakeGame.toPrettyString())
-
-    while (true) {
-        var dir = readLine()
-        when (dir) {
-            "w" -> snakeGame.moveToRelativeDir(RelativeDirection.AHEAD)
-            "a" -> snakeGame.moveToRelativeDir(RelativeDirection.LEFT)
-            "d" -> snakeGame.moveToRelativeDir(RelativeDirection.RIGHT)
-        }
-        println(snakeGame.toPrettyString())
-    }
 
     launch(Main::class.java, *args)
 }

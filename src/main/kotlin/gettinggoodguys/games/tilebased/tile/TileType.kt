@@ -1,4 +1,4 @@
-package gettinggoodguys.games.tilebased
+package gettinggoodguys.games.tilebased.tile
 
 interface TileType {
 
@@ -12,5 +12,7 @@ interface TileType {
      * An empty TicTacToeTile can be overridden by PLAYER_1_TILE
      * A PLAYER_1_Tile (TicTacToe) can not be overridden by PLAYER_2_TILE
      */
-    fun canBeOverriddenBy(tileType: TileType): Boolean;
+    fun canBeOverriddenBy(tileType: TileType): Boolean
+
+    fun extendedToString(): String
 }

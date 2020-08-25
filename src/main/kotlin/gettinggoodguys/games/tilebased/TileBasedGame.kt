@@ -2,12 +2,21 @@ package gettinggoodguys.games.tilebased
 
 import gettinggoodguys.games.movement.directions.AbsoluteDirection
 import gettinggoodguys.games.Game
+import gettinggoodguys.games.tilebased.tile.NoTileAtCoordinatesException
+import gettinggoodguys.games.tilebased.tile.Tile
+import gettinggoodguys.games.tilebased.tile.TileType
 import java.lang.IllegalArgumentException
 
-abstract class TileBasedGame(protected val gameBoardSizeX: Int, protected val gameBoardSizeY: Int, defaultTileType: TileType) : Game {
+abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, defaultTileType: TileType) : Game {
 
     // Stores all tiles of the gameBoard
-    private val tiles: Array<Array<Tile>> = Array(gameBoardSizeX) { row -> Array(gameBoardSizeY) { column -> Tile(row, column, defaultTileType) } }
+    private  val tiles: Array<Array<Tile>> = Array(gameBoardSizeX) { row -> Array(gameBoardSizeY) { column ->
+        Tile(
+            row,
+            column,
+            defaultTileType
+        )
+    } }
 
     /**
      * Gets the tile at the given coordinates
@@ -15,17 +24,20 @@ abstract class TileBasedGame(protected val gameBoardSizeX: Int, protected val ga
      * @param y the y coordinate
      * @return the tile at the given coordinate
      */
-    fun getTileAt(x: Int, y: Int): Tile {
+    public fun getTileAt(x: Int, y: Int): Tile {
         if (!isTileAt(x, y)) {
-            throw IllegalArgumentException(
-                "Unable to access tile at x $x y $y\n" +
-                        "Reason: There is no tile at the given coordinates"
-            )
+            throw NoTileAtCoordinatesException(x, y, this)
         }
 
         return tiles[x][y]
     }
 
+    /**
+     * Checks if there is a tile a the given coordinates
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return true if there is a tile, false if there is no tile
+     */
     fun isTileAt(x: Int, y: Int): Boolean {
         if(x < 0 || x >= gameBoardSizeX || y < 0 || y >= gameBoardSizeY) {
             return false
@@ -33,6 +45,14 @@ abstract class TileBasedGame(protected val gameBoardSizeX: Int, protected val ga
         return true
     }
 
+    /**
+     * Gets the tile in the given absolute direction
+     * This is useful if you want to e.g. get the tile above another tile
+     * @param tileX the x coordinate of the start tile
+     * @param tileY the y coordinate of the start tile
+     * @param absoluteDirection the direction where we want to get the tile
+     * @return returns either the Tile in the given direction or null if there is no tile in that direction
+     */
     fun getTileInAbsoluteDir(tileX: Int, tileY: Int, absoluteDirection: AbsoluteDirection): Tile? {
 
         var newX = tileX
@@ -126,5 +146,10 @@ abstract class TileBasedGame(protected val gameBoardSizeX: Int, protected val ga
             sb.append("\n")
         }
         return sb.toString()
+    }
+
+    // TODO: Write better toString
+    override fun toString(): String {
+        return toPrettyString()
     }
 }

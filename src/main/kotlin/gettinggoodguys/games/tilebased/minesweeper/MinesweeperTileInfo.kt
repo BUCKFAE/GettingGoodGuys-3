@@ -1,6 +1,6 @@
 package gettinggoodguys.games.tilebased.minesweeper
 
-import gettinggoodguys.games.tilebased.TileType
+import gettinggoodguys.games.tilebased.tile.TileType
 
 data class MinesweeperTileInfo(
     var clicked: Boolean = false,
@@ -15,6 +15,10 @@ data class MinesweeperTileInfo(
      */
     override fun canBeOverriddenBy(tileType: TileType): Boolean {
         return tileType is MinesweeperTileInfo
+    }
+
+    override fun extendedToString(): String {
+        return "MinesweeperTile = ${toString()}"
     }
 
     override fun toString(): String {

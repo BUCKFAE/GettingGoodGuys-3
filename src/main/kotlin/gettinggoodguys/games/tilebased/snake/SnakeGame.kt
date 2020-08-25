@@ -1,8 +1,9 @@
 package gettinggoodguys.games.tilebased.snake
 
+import gettinggoodguys.games.MoveOptions
 import gettinggoodguys.games.movement.directions.AbsoluteDirection
 import gettinggoodguys.games.movement.directions.RelativeDirection
-import gettinggoodguys.games.tilebased.Tile
+import gettinggoodguys.games.tilebased.tile.Tile
 import gettinggoodguys.games.tilebased.TileBasedGame
 
 class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameSizeY, defaultTileType = SnakeTileType.EMPTY_TILE) {
@@ -38,6 +39,8 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
             val headPosX = gameSizeX / 2
             val headPosY = gameSizeY / 2
 
+            // TODO: Throw error when there is no tile at the given spot
+
             // Getting the tile from the gameboard as reference
             val newTile = getTileAt(headPosX, headPosY - currentBodyPieceID)
 
@@ -55,6 +58,11 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
 
     fun moveToRelativeDir(relativeDirection: RelativeDirection) {
 
+        // TODO: Improve this
+        if(!isAlive()) {
+            throw IllegalStateException("Tried to move a dead Snake.")
+        }
+
         // Storing the coordinates of the head
         val headPosX = snakeBodyTiles[0].posX
         val headPosY = snakeBodyTiles[0].posY
@@ -66,7 +74,7 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
 
         // The snake hit a wall
         if(newHeadTile == null) {
-            println("Hit a wall")
+            isAlive = false
         }
         // The snake did not hit a wall
         else {
@@ -103,8 +111,12 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
 
     }
 
-    override fun step() {
-        TODO("Not yet implemented")
+    override fun step(moveOption: MoveOptions) {
+        when (moveOption) {
+            SnakeMoveOptions.AHEAD -> {moveToRelativeDir(RelativeDirection.AHEAD)}
+            SnakeMoveOptions.LEFT -> {moveToRelativeDir(RelativeDirection.LEFT)}
+            SnakeMoveOptions.RIGHT -> {moveToRelativeDir(RelativeDirection.RIGHT)}
+        }
     }
 
     override fun isAlive(): Boolean {
