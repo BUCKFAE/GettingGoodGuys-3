@@ -5,6 +5,7 @@ import gettinggoodguys.games.movement.directions.AbsoluteDirection
 import gettinggoodguys.games.movement.directions.RelativeDirection
 import gettinggoodguys.games.tilebased.tile.Tile
 import gettinggoodguys.games.tilebased.TileBasedGame
+import gettinggoodguys.games.tilebased.tile.NoTileAtCoordinatesException
 
 class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameSizeY, defaultTileType = SnakeTileType.EMPTY_TILE) {
 
@@ -39,7 +40,13 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
             val headPosX = gameSizeX / 2
             val headPosY = gameSizeY / 2
 
-            // TODO: Throw error when there is no tile at the given spot
+            // Throws an error if there is no tile at the given spot, this will only
+            // happen if the snake is to long for the given gameBoard bounds.
+            if(!isTileAt(headPosX, headPosY - currentBodyPieceID)) {
+                throw NoTileAtCoordinatesException(headPosX, headPosY - currentBodyPieceID, this,
+                "The error occurred when trying to create a new snake game. Check if the snake " +
+                "is to long for the given gameBoard bounds.")
+            }
 
             // Getting the tile from the gameboard as reference
             val newTile = getTileAt(headPosX, headPosY - currentBodyPieceID)
@@ -54,6 +61,8 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
             // Adding the tile to the list
             snakeBodyTiles.add(newTile)
         }
+
+        spawnFood()
     }
 
     fun moveToRelativeDir(relativeDirection: RelativeDirection) {
@@ -81,7 +90,16 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
 
             // Removing the last tile from the snake
             snakeBodyTiles[snakeBodyTiles.size - 1].tileType = SnakeTileType.EMPTY_TILE
-            snakeBodyTiles.removeAt(snakeBodyTiles.size - 1)
+
+            // We stepped on food
+            if(newHeadTile.tileType == SnakeTileType.FOOD_TILE) {
+
+                //TODO: Check if we won the game
+                
+                spawnFood()
+            } else {
+                snakeBodyTiles.removeAt(snakeBodyTiles.size - 1)
+            }
 
             // If the snake did not hit itself
             if(newHeadTile.tileType != SnakeTileType.SNAKE_BODY_TILE) {
@@ -103,12 +121,20 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
                 isAlive = false
             }
         }
+
     }
 
 
+    private fun spawnFood() {
+        var newFoodTile: Tile = getRandomTile()
 
-    private fun removeLastTileSnake() {
+        // Ensuring the new tile is not a Snake Tile
+        while (newFoodTile.tileType == SnakeTileType.SNAKE_HEAD_TILE
+                || newFoodTile.tileType == SnakeTileType.SNAKE_BODY_TILE) {
+            newFoodTile = getRandomTile()
+        }
 
+        newFoodTile.tileType = SnakeTileType.FOOD_TILE
     }
 
     override fun step(moveOption: MoveOptions) {

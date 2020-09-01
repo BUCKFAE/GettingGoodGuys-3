@@ -12,16 +12,12 @@ internal class SnakeGameTest {
     @Test
     fun stepTest() {
         val snakeGame = SnakeGame(3, 7)
-        println(snakeGame.toPrettyString())
 
         snakeGame.moveToRelativeDir(RelativeDirection.AHEAD)
-        println(snakeGame.toPrettyString())
 
         snakeGame.moveToRelativeDir(RelativeDirection.LEFT)
-        println(snakeGame.toPrettyString())
 
         snakeGame.moveToRelativeDir(RelativeDirection.LEFT)
-        println(snakeGame.toPrettyString())
     }
 
     @Test

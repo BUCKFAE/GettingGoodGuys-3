@@ -5,15 +5,21 @@ import gettinggoodguys.games.tilebased.snake.ai.SnakeRandomAIGameController
 
 class AIMainLoop: MainLoop {
 
-    private val amountOfGames = 6
+    private val amountOfGames = 2
+
+    val currentGenIsDead = false
 
     val controllerArrayList = ArrayList<AIGameController>()
 
+    // TODO: This currently only creates random snake games
     init {
         for (currentGame in 1..amountOfGames) {
             val currentRandomSnakeController = SnakeRandomAIGameController()
             controllerArrayList.add(currentRandomSnakeController)
         }
+
+        println("The AI Main Loop has been initialized")
+
     }
 
     override fun startLoop() {
@@ -44,6 +50,14 @@ class AIMainLoop: MainLoop {
 
         if(allGamesAreDead) {
             println("All games of the current generation are dead")
+
+            // Makes the first controller create a new population based on the current one
+            controllerArrayList[0].createNewGeneration(controllerArrayList)
+
+
+            println("We now have ${controllerArrayList.size} games")
         }
     }
+
+
 }

@@ -5,12 +5,13 @@ import gettinggoodguys.games.tilebased.TileBasedGame
 /**
  * Gets raised when trying to access a tile on invalid coordinates
  */
-class NoTileAtCoordinatesException (posX: Int, posY: Int, gameBoard: TileBasedGame):
+class NoTileAtCoordinatesException (posX: Int, posY: Int, gameBoard: TileBasedGame, detail: String = ""):
     Exception(
         "An error occurred while trying to access a tile\n" +
                 "Reason: There is no tile at the given coordinates\n" +
                 "Coordinates: x = $posX y = $posY\n" +
-                getGameBoardData(gameBoard)
+                getGameBoardData(gameBoard) + "\n" +
+                "Details: $detail"
     )
 
 

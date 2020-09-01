@@ -23,9 +23,7 @@ class MainViewController : Controller() {
 
 
     fun stepGames() {
-        println("Stepping all games now")
         aiMainLoop.stepLoop()
-
     }
 
     fun updateGames() {
@@ -42,14 +40,23 @@ class MainViewController : Controller() {
             for (currentY in 0 until currentTileBasedGame.gameBoardSizeY) {
                 for (currentX in 0 until currentTileBasedGame.gameBoardSizeX) {
 
-                    val currentTileInfo = currentTileBasedGame.getTileAt(currentX, currentY).tileType.toString()
+                    var currentTileInfo = currentTileBasedGame.getTileAt(currentX, currentY).tileType.toString()
+
+                    gameData[currentControllerID].removeAt(currentItemID)
+
+
+                    if (!currentTileBasedGame.isAlive()) {
+                        currentTileInfo = currentTileInfo.replace(" ", "X")
+                    }
 
                     // Exchanging the old tileInfo with the new tile info
-                    gameData[currentControllerID].removeAt(currentItemID)
                     gameData[currentControllerID].add(currentItemID, currentTileInfo)
+
+
 
                     currentItemID++
                 }
+
             }
 
         }

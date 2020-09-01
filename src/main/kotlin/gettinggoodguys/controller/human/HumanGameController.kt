@@ -5,7 +5,7 @@ import gettinggoodguys.games.Game
 import gettinggoodguys.games.MoveOptions
 
 class HumanGameController: GameController {
-    override val game: Game
+    override var game: Game = TODO("Not yet implemented")
         get() = TODO("Not yet implemented")
 
     override fun getNextMove(): MoveOptions {

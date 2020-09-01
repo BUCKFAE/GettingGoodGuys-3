@@ -10,6 +10,7 @@ import kotlin.test.assertFailsWith
 
 import org.junit.jupiter.api.Assertions.*
 import java.lang.IllegalArgumentException
+import kotlin.random.Random
 import kotlin.test.assertNull
 
 internal class TileBasedGameTest {
@@ -91,7 +92,6 @@ internal class TileBasedGameTest {
         assertFalse(snakeGame.isTileAt(4, 0))
         assertFalse(snakeGame.isTileAt(0, 5))
         assertFalse(snakeGame.isTileAt(4, 5))
-
 
     }
 
@@ -203,5 +203,30 @@ internal class TileBasedGameTest {
 
     @Test
     fun toPrettyStringTest() {
+    }
+
+    @Test
+    fun getRandomTileTest() {
+
+        val snakeGame = SnakeGame(5, 4)
+        val random = Random(0)
+
+        // Ensuring that getting a set random will always get the same tiles
+        assertEquals("Tile: x = 4 y = 1 tileType = \"SnakeTile =  \"",
+            snakeGame.getRandomTile(random = random).toString())
+        assertEquals("Tile: x = 2 y = 2 tileType = \"SnakeTile = H\"",
+            snakeGame.getRandomTile(random = random).toString())
+    }
+
+    @Test
+    fun getTilesOfRowTest() {
+    }
+
+    @Test
+    fun getTilesOfColTest() {
+    }
+
+    @Test
+    fun getAllTilesInOrderTest() {
     }
 }

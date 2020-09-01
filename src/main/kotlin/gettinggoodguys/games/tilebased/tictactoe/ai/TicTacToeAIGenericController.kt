@@ -1,12 +1,16 @@
 package gettinggoodguys.games.tilebased.tictactoe.ai
 
+import gettinggoodguys.controller.ai.AIGameController
 import gettinggoodguys.controller.ai.generic.GenericAIGameController
 import gettinggoodguys.games.Game
 import gettinggoodguys.games.MoveOptions
 
 class TicTacToeAIGenericController: GenericAIGameController() {
+    override fun createNewGeneration(controllerArrayList: ArrayList<AIGameController>) {
+        TODO("Not yet implemented")
+    }
 
-    override val game: Game
+    override var game: Game = TODO("Not yet implemented")
         get() = TODO("Not yet implemented")
 
     override fun getNextMove(): MoveOptions {

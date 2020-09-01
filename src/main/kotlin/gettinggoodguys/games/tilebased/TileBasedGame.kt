@@ -6,6 +6,7 @@ import gettinggoodguys.games.tilebased.tile.NoTileAtCoordinatesException
 import gettinggoodguys.games.tilebased.tile.Tile
 import gettinggoodguys.games.tilebased.tile.TileType
 import java.lang.IllegalArgumentException
+import kotlin.random.Random
 
 abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, defaultTileType: TileType) : Game {
 
@@ -24,7 +25,7 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
      * @param y the y coordinate
      * @return the tile at the given coordinate
      */
-    public fun getTileAt(x: Int, y: Int): Tile {
+    fun getTileAt(x: Int, y: Int): Tile {
         if (!isTileAt(x, y)) {
             throw NoTileAtCoordinatesException(x, y, this)
         }
@@ -70,21 +71,48 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
         return null
     }
 
+    /**
+     * Getting a random Tile on the gameBoard
+     */
+    fun getRandomTile(random: Random = Random): Tile {
 
+        // Coordinates of the random tile
+        val tileX = random.nextInt(gameBoardSizeX)
+        val tileY = random.nextInt(gameBoardSizeY)
+
+        // Returning the tile
+        return getTileAt(tileX, tileY)
+    }
+
+    /**
+     * Returns all tiles of the given row
+     */
+    fun getTilesOfRow(row: Int): Array<Tile> {
+        return Array(gameBoardSizeX) {currentX -> getTileAt(currentX, row)}
+    }
+
+    /**
+     * Returns all tiles of the given col
+     */
+    fun getTilesOfCol(col: Int): Array<Tile> {
+        return Array(gameBoardSizeY) {currentY -> getTileAt(col, currentY)}
+    }
+
+    /**
+     * Returns all tiles in order
+     */
+    fun getAllTilesInOrder(): Array<Tile> {
+        return Array(gameBoardSizeX * gameBoardSizeY) {id ->
+            val currX = id / gameBoardSizeX
+            val currY = id % gameBoardSizeY
+            getTileAt(currX, currY)
+        }
+    }
 
     /**
      * Returns a pretty String representing the current game
      * Should be used instead of toString() when the game
      * is played on commandline
-     *
-     * Example output:
-     *
-     *        X
-     *   +-+-+-+-+-+
-     *   |X|X|X|S|S|
-     * Y +-+-+-+-+-+
-     *   |X|X|X|S|X|
-     *   +-+-+-+-+-+
      *
      * TODO: Write Tests
      */
@@ -139,7 +167,7 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
                         val currTileY = y / 2
 
                         // Appending the TileInfo of the current Tile
-                        sb.append(tiles[currTileX][currTileY].tileType.toString())
+                        sb.append(getTileAt(currTileX, currTileY).tileType.toString())
                     }
                 }
             }

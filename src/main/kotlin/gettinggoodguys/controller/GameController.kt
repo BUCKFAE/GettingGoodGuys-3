@@ -5,7 +5,7 @@ import gettinggoodguys.games.MoveOptions
 
 interface GameController {
 
-    val game: Game
+    var game: Game
 
     fun getNextMove(): MoveOptions
 }

@@ -14,7 +14,7 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
     override val root = borderpane {
         this.setMinSize(500.0, 500.0)
 
-        this.resize(1000.0, 500.0)
+        this.useMaxSize
 
         center {
             borderpane {
@@ -49,14 +49,15 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
                                         bottom = Color.PURPLE
                                     )
 
+
                                 }
 
                                 //TODO: Write code that centers all games
 
                                 anchorpaneConstraints { leftAnchor = 5.0; topAnchor = 5.0 }
 
-                                horizontalCellSpacing = 0.0
-                                verticalCellSpacing = 0.0
+                                horizontalCellSpacing = 1.0
+                                verticalCellSpacing = 1.0
 
                                 cellHeight = 50.0
                                 cellWidth = 50.0
@@ -88,8 +89,9 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
                                         controller.updateGames() // Updating all games on the ui
                                     }
                                 }
-                                //anchorpaneConstraints { bottomAnchor = 5.0 }
+                                // anchorpaneConstraints { bottomAnchor = 5.0 }
                             }
+
                         }
 
                     }
