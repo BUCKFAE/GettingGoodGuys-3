@@ -88,9 +88,6 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
         // The snake did not hit a wall
         else {
 
-            // Removing the last tile from the snake
-            snakeBodyTiles[snakeBodyTiles.size - 1].tileType = SnakeTileType.EMPTY_TILE
-
             // We stepped on food
             if(newHeadTile.tileType == SnakeTileType.FOOD_TILE) {
 
@@ -98,6 +95,8 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
 
                 spawnFood()
             } else {
+                // Removing the last tile from the snake
+                snakeBodyTiles[snakeBodyTiles.size - 1].tileType = SnakeTileType.EMPTY_TILE
                 snakeBodyTiles.removeAt(snakeBodyTiles.size - 1)
             }
 
