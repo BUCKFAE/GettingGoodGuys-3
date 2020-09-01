@@ -69,8 +69,22 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
 
                                 // The actual cell value
                                 cellFormat {
+                                    // TODO: This will break once we have more than just snake games
                                     graphic = cache {
-                                        label(it) { }
+                                        if (it == "X") {
+                                            vbox { style { backgroundColor += c("red") } }
+                                        } else if (it == "H") {
+                                            vbox { style { backgroundColor += c("aqua") } }
+                                        } else if (it == "S") {
+                                            vbox { style { backgroundColor += c("blue") } }
+                                        } else if (it == " ") {
+                                            vbox { style { backgroundColor += c("white") } }
+                                        } else if (it == "F") {
+                                            vbox { style { backgroundColor += c("green") } }
+                                        }
+                                       else {
+                                            label(it) { }
+                                        }
                                     }
                                 }
                             }

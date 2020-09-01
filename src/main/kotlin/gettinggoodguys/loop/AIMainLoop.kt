@@ -5,7 +5,7 @@ import gettinggoodguys.games.tilebased.snake.ai.SnakeRandomAIGameController
 
 class AIMainLoop: MainLoop {
 
-    private val amountOfGames = 2
+    private val amountOfGames = 5
 
     val currentGenIsDead = false
 
