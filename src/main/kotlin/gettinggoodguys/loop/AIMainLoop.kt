@@ -54,8 +54,8 @@ class AIMainLoop: MainLoop {
             // Makes the first controller create a new population based on the current one
             controllerArrayList[0].createNewGeneration(controllerArrayList)
 
+            println("Successfully created a new generation")
 
-            println("We now have ${controllerArrayList.size} games")
         }
     }
 

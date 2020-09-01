@@ -95,7 +95,7 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) : TileBasedGame(gameSizeX, gameS
             if(newHeadTile.tileType == SnakeTileType.FOOD_TILE) {
 
                 //TODO: Check if we won the game
-                
+
                 spawnFood()
             } else {
                 snakeBodyTiles.removeAt(snakeBodyTiles.size - 1)
