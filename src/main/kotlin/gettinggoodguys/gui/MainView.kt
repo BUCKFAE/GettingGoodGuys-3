@@ -14,26 +14,24 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
         this.useMaxSize
 
         center {
-            scrollpane {
-                flowpane {
+            flowpane {
 
-                    // Style of the flowpane
-                    style {
-                        fontWeight = FontWeight.EXTRA_BOLD
-                        borderColor += box(
-                            top = Color.RED,
-                            right = Color.DARKGREEN,
-                            left = Color.ORANGE,
-                            bottom = Color.PURPLE
-                        )
-                    }
+                // Style of the flowpane
+                style {
+                    fontWeight = FontWeight.EXTRA_BOLD
+                    borderColor += box(
+                        top = Color.RED,
+                        right = Color.DARKGREEN,
+                        left = Color.ORANGE,
+                        bottom = Color.PURPLE
+                    )
+                }
 
-                    // Creating and updating gameData
-                    controller.initGameData()
+                // Creating and updating gameData
+                controller.initGameData()
 
-                    for (dataGridID in 0 until controller.gamesToDisplay) {
-                        controller.drawGame(dataGridID, this)
-                    }
+                for (dataGridID in 0 until controller.gamesToDisplay) {
+                    controller.drawGame(dataGridID, this)
                 }
             }
         }
