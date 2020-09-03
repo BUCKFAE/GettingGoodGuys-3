@@ -6,11 +6,8 @@ import gettinggoodguys.games.movement.directions.RelativeDirection
 import gettinggoodguys.games.tilebased.TileBasedGame
 import gettinggoodguys.games.tilebased.tile.NoTileAtCoordinatesException
 import gettinggoodguys.games.tilebased.tile.Tile
-import javafx.collections.ObservableList
-import javafx.event.EventTarget
-import javafx.scene.paint.Color
-import javafx.scene.text.FontWeight
 import tornadofx.*
+
 
 class SnakeGame(gameSizeX: Int, gameSizeY: Int) :
     TileBasedGame(gameSizeX, gameSizeY, defaultTileType = SnakeTileType.EMPTY_TILE) {
@@ -163,60 +160,31 @@ class SnakeGame(gameSizeX: Int, gameSizeY: Int) :
         return isAlive
     }
 
-    override fun drawGame(target: EventTarget) {
-        throw IllegalStateException("Cant draw game without GameData")
-    }
-
-    override fun drawGame(target: EventTarget, gameData: ObservableList<String>) {
-        with(target)
-        {
-            anchorpane() {
-                datagrid(gameData) {
-                    style {
-                        fontWeight = FontWeight.EXTRA_BOLD
-                        borderColor += box(
-                            top = Color.RED,
-                            right = Color.DARKGREEN,
-                            left = Color.ORANGE,
-                            bottom = Color.PURPLE
-                        )
-
-
+    override fun DataGrid<String>.gameCellFormat() {
+        cellFormat {
+            graphic = cache {
+                when (it) {
+                    "X" -> {
+                        vbox { style { backgroundColor += c("red") } }
                     }
-
-                    anchorpaneConstraints { leftAnchor = 5.0; topAnchor = 5.0 }
-
-                    horizontalCellSpacing = 1.0
-                    verticalCellSpacing = 1.0
-
-                    cellHeight = 50.0
-                    cellWidth = 50.0
-
-                    prefHeight = gameBoardSizeY * cellHeight + 50
-                    prefWidth = gameBoardSizeX * cellWidth + 50
-
-                    maxCellsInRow = gameBoardSizeX
-
-                    // The actual cell value
-                    cellFormat {
-                        graphic = cache {
-                            if (it == "X") {
-                                vbox { style { backgroundColor += c("red") } }
-                            } else if (it == "H") {
-                                vbox { style { backgroundColor += c("aqua") } }
-                            } else if (it == "S") {
-                                vbox { style { backgroundColor += c("blue") } }
-                            } else if (it == " ") {
-                                vbox { style { backgroundColor += c("white") } }
-                            } else if (it == "F") {
-                                vbox { style { backgroundColor += c("green") } }
-                            } else {
-                                label(it) { }
-                            }
-                        }
+                    "H" -> {
+                        vbox { style { backgroundColor += c("aqua") } }
+                    }
+                    "S" -> {
+                        vbox { style { backgroundColor += c("blue") } }
+                    }
+                    " " -> {
+                        vbox { style { backgroundColor += c("white") } }
+                    }
+                    "F" -> {
+                        vbox { style { backgroundColor += c("green") } }
+                    }
+                    else -> {
+                        label(it) { }
                     }
                 }
             }
         }
     }
+
 }

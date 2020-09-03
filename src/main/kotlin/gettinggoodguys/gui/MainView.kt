@@ -14,20 +14,27 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
 
         center {
             scrollpane {
+                paddingAll = 5.0
                 isFitToWidth = true
                 isFitToHeight = true
+                // Style of the pane
+                style {
+                    fontWeight = FontWeight.EXTRA_BOLD
+                    borderColor += box(
+                        top = Color.RED,
+                        right = Color.DARKGREEN,
+                        left = Color.ORANGE,
+                        bottom = Color.PURPLE
+                    )
+                }
                 flowpane {
-
-                    // Style of the flowpane
-                    style {
-                        fontWeight = FontWeight.EXTRA_BOLD
-                        borderColor += box(
-                            top = Color.RED,
-                            right = Color.DARKGREEN,
-                            left = Color.ORANGE,
-                            bottom = Color.PURPLE
-                        )
+                    hgap = 5.0
+                    vgap = 5.0
+                    anchorpaneConstraints {
+                        leftAnchor = hgap
+                        topAnchor = vgap
                     }
+
 
                     // Creating and updating gameData
                     controller.initGameData()
@@ -37,7 +44,9 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
                     }
                 }
             }
+
         }
+
 
         bottom = borderpane {
             center = vbox {

@@ -15,19 +15,47 @@ import kotlin.random.Random
 abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, defaultTileType: TileType) : Game {
 
     // Stores all tiles of the gameBoard
-    private val tiles: Array<Array<Tile>> = Array(gameBoardSizeX) { row ->
-        Array(gameBoardSizeY) { column ->
+    /**
+     * Example: 3 width 4 height
+     * - Format: x/width Array: [Array, Array, Array] contains [gameBoardSizeX] height arrays with [gameBoardSizeY] length
+     * -               [y]    [y]    [y]
+     * -               [y]    [y]    [y]
+     * -               [y]    [y]    [y]
+     * -               [y]    [y]    [y]
+     */
+    private val tiles: Array<Array<Tile>> = Array(gameBoardSizeX) { column ->
+        Array(gameBoardSizeY) { row ->
             Tile(
-                row,
                 column,
+                row,
                 defaultTileType
             )
         }
     }
 
+    /**
+     * This method changes how a cell of the game dataGrid is rendered
+     */
+    open fun DataGrid<String>.gameCellFormat() {
+        cellFormat {
+            graphic = cache {
+                label(it) { }
+            }
+        }
+    }
+
+    override fun drawGame(target: EventTarget) {
+        throw IllegalStateException("Cannot draw game without gameData")
+    }
+
     override fun drawGame(target: EventTarget, gameData: ObservableList<String>) {
-        target.anchorpane() {
+        with(target) {
             datagrid(gameData) {
+                paddingLeft = 10.0
+                paddingRight = 0.0
+                paddingTop = 10.0
+                paddingBottom = 0.0
+
                 style {
                     fontWeight = FontWeight.EXTRA_BOLD
                     borderColor += box(
@@ -37,26 +65,18 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
                         bottom = Color.PURPLE
                     )
                 }
-
-                anchorpaneConstraints { leftAnchor = 5.0; topAnchor = 5.0 }
-
                 horizontalCellSpacing = 1.0
                 verticalCellSpacing = 1.0
 
                 cellHeight = 50.0
                 cellWidth = 50.0
-
-                prefHeight = gameBoardSizeY * cellHeight + 50
-                prefWidth = gameBoardSizeX * cellWidth + 50
+                prefHeight = gameBoardSizeY * cellHeight + 20 + (gameBoardSizeY + 2) * verticalCellSpacing
+                prefWidth = gameBoardSizeX * cellWidth + 20 + (gameBoardSizeX + 2) * horizontalCellSpacing
 
                 maxCellsInRow = gameBoardSizeX
 
                 // The actual cell value
-                cellFormat {
-                    graphic = cache {
-                        label(it) { }
-                    }
-                }
+                gameCellFormat()
             }
         }
     }
@@ -153,8 +173,8 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
      */
     fun getAllTilesInOrder(): Array<Tile> {
         return Array(gameBoardSizeX * gameBoardSizeY) { id ->
-            val currX = id / gameBoardSizeX
-            val currY = id % gameBoardSizeY
+            val currY = id / gameBoardSizeX
+            val currX = id % gameBoardSizeX
             getTileAt(currX, currY)
         }
     }
