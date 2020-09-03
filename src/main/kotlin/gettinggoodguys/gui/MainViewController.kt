@@ -1,5 +1,6 @@
 package gettinggoodguys.gui
 
+import gettinggoodguys.controller.ai.AIGameController
 import gettinggoodguys.games.tilebased.TileBasedGame
 import gettinggoodguys.loop.AIMainLoop
 import javafx.collections.FXCollections
@@ -33,10 +34,36 @@ class MainViewController : Controller() {
         aiMainLoop.stepLoop()
     }
 
+    /**
+     * Returns the [index]th living controller, if no such controller exists returns a dead controller with deadIndex = index - livingAmount
+     */
+    private fun getLivingThenDeadController(index: Int): AIGameController? {
+        //show alive games first then dead games
+        if (index !in gameData.indices) {
+            return null
+        }
+        println("[debug]> Index: $index")
+        if (index in aiMainLoop.aliveControllers.indices) {
+            val index = aiMainLoop.aliveControllers[index]
+            println("[debug]> AliveIndex: $index")
+            return aiMainLoop.controllerArrayList[index]
+        } else {
+            val index = index - aiMainLoop.aliveControllers.size
+            if (index in aiMainLoop.deadControllers.indices) {
+                val index = aiMainLoop.deadControllers[index]
+                println("[debug]> DeadIndex: $index")
+                return aiMainLoop.controllerArrayList[index]
+            } else {
+                println("$index not in ${aiMainLoop.deadControllers.indices}")
+            }
+        }
+        return null
+    }
+
     fun updateGames() {
 
         // Adding gameData for all Games
-        for (currentControllerID in 0 until aiMainLoop.controllerArrayList.size) {
+        for (currentControllerID in 0 until gamesToDisplay) {
 
             // Storing the current game for easy access
             val currentTileBasedGame = aiMainLoop.controllerArrayList[currentControllerID].game as TileBasedGame

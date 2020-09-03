@@ -39,7 +39,25 @@ class AIMainLoop : MainLoop {
     val threads = 4
     val dispatcher = Executors.newScheduledThreadPool(threads).asCoroutineDispatcher()
 
+    var generateNewGeneration = false
+
     override fun stepLoop() {
+
+        if (generateNewGeneration) {
+            println("[Debug]> All games of the current generation are dead")
+
+            // Makes the first controller create a new population based on the current one
+            controllerArrayList[0].createNewGeneration(controllerArrayList)
+            aliveControllers.clear()
+            deadControllers.clear()
+            for (index in controllerArrayList.indices) {
+                aliveControllers.add(index)
+            }
+
+            println("Successfully created a new generation")
+            generateNewGeneration = false
+            return
+        }
 
         runBlocking {
             val request = launch {
@@ -77,18 +95,7 @@ class AIMainLoop : MainLoop {
         println(aliveControllers)
 
         if (allGamesAreDead) {
-            println("[Debug]> All games of the current generation are dead")
-
-            // Makes the first controller create a new population based on the current one
-            controllerArrayList[0].createNewGeneration(controllerArrayList)
-            aliveControllers.clear()
-            deadControllers.clear()
-            for (index in controllerArrayList.indices) {
-                aliveControllers.add(index)
-            }
-
-            println("Successfully created a new generation")
-
+            generateNewGeneration = true
         }
     }
 
