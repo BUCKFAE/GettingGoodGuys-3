@@ -1,11 +1,8 @@
 package gettinggoodguys.gui
 
-import javafx.scene.control.Cell
-import javafx.scene.layout.AnchorPane
 import javafx.scene.paint.Color
 import javafx.scene.text.FontWeight
 import tornadofx.*
-import tornadofx.Stylesheet.Companion.cell
 
 class MainView : View("Getting Good Guys - by BUCKFAE") {
 
@@ -35,85 +32,29 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
                     controller.initGameData()
 
                     for (dataGridID in 0 until controller.gamesToDisplay) {
-
-                        anchorpane() {
-                            datagrid(controller.gameData[dataGridID]) {
-
-
-                                style {
-                                    fontWeight = FontWeight.EXTRA_BOLD
-                                    borderColor += box(
-                                        top = Color.RED,
-                                        right = Color.DARKGREEN,
-                                        left = Color.ORANGE,
-                                        bottom = Color.PURPLE
-                                    )
-
-
-                                }
-
-                                //TODO: Write code that centers all games
-
-                                anchorpaneConstraints { leftAnchor = 5.0; topAnchor = 5.0 }
-
-                                horizontalCellSpacing = 1.0
-                                verticalCellSpacing = 1.0
-
-                                cellHeight = 50.0
-                                cellWidth = 50.0
-
-
-                                prefWidth = controller.gameSizeX * cellHeight + 50
-
-                                maxCellsInRow = controller.gameSizeX
-
-                                // The actual cell value
-                                cellFormat {
-                                    // TODO: This will break once we have more than just snake games
-                                    graphic = cache {
-                                        if (it == "X") {
-                                            vbox { style { backgroundColor += c("red") } }
-                                        } else if (it == "H") {
-                                            vbox { style { backgroundColor += c("aqua") } }
-                                        } else if (it == "S") {
-                                            vbox { style { backgroundColor += c("blue") } }
-                                        } else if (it == " ") {
-                                            vbox { style { backgroundColor += c("white") } }
-                                        } else if (it == "F") {
-                                            vbox { style { backgroundColor += c("green") } }
-                                        }
-                                       else {
-                                            label(it) { }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        controller.drawGame(dataGridID, this)
                     }
 
 
-                    bottom = borderpane {
-                        center = vbox {
-                            button(" Step ") {
-                                useMaxWidth = true
-                                action {
-                                    runAsync {
-                                        controller.stepGames() // Stepping all games
-                                    } ui {
-                                        controller.updateGames() // Updating all games on the ui
-                                    }
-                                }
-                                // anchorpaneConstraints { bottomAnchor = 5.0 }
-                            }
-
-                        }
-
-                    }
                 }
 
             }
 
         }
-
+        bottom = borderpane {
+            center = vbox {
+                button(" Step ") {
+                    useMaxWidth = true
+                    action {
+                        runAsync {
+                            controller.stepGames() // Stepping all games
+                        } ui {
+                            controller.updateGames() // Updating all games on the ui
+                        }
+                    }
+                    // anchorpaneConstraints { bottomAnchor = 5.0 }
+                }
+            }
+        }
     }
 }

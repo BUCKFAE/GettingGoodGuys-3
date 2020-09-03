@@ -2,9 +2,10 @@ package gettinggoodguys.loop
 
 import gettinggoodguys.controller.ai.AIGameController
 import gettinggoodguys.games.tilebased.snake.ai.SnakeRandomAIGameController
-import kotlinx.coroutines.*
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.Executors
-import kotlin.coroutines.CoroutineContext
 
 class AIMainLoop : MainLoop {
 
@@ -12,6 +13,7 @@ class AIMainLoop : MainLoop {
 
     val controllerArrayList = ArrayList<AIGameController>()
     val aliveControllers = ArrayList<Int>()
+    val deadControllers = ArrayList<Int>()
 
     // TODO: This currently only creates random snake games
     init {
@@ -20,6 +22,7 @@ class AIMainLoop : MainLoop {
             controllerArrayList.add(currentRandomSnakeController)
             aliveControllers.add(currentGame - 1)
         }
+        deadControllers.clear()
 
         println("The AI Main Loop has been initialized")
 
@@ -67,6 +70,7 @@ class AIMainLoop : MainLoop {
                 allGamesAreDead = false
             } else {
                 println("[Debug]> $index was dead")
+                deadControllers.add(index)
                 iterator.remove()
             }
         }
@@ -78,6 +82,7 @@ class AIMainLoop : MainLoop {
             // Makes the first controller create a new population based on the current one
             controllerArrayList[0].createNewGeneration(controllerArrayList)
             aliveControllers.clear()
+            deadControllers.clear()
             for (index in controllerArrayList.indices) {
                 aliveControllers.add(index)
             }

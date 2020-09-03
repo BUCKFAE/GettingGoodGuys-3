@@ -1,23 +1,65 @@
 package gettinggoodguys.games.tilebased
 
-import gettinggoodguys.games.movement.directions.AbsoluteDirection
 import gettinggoodguys.games.Game
+import gettinggoodguys.games.movement.directions.AbsoluteDirection
 import gettinggoodguys.games.tilebased.tile.NoTileAtCoordinatesException
 import gettinggoodguys.games.tilebased.tile.Tile
 import gettinggoodguys.games.tilebased.tile.TileType
-import java.lang.IllegalArgumentException
+import javafx.collections.ObservableList
+import javafx.event.EventTarget
+import javafx.scene.paint.Color
+import javafx.scene.text.FontWeight
+import tornadofx.*
 import kotlin.random.Random
 
 abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, defaultTileType: TileType) : Game {
 
     // Stores all tiles of the gameBoard
-    private  val tiles: Array<Array<Tile>> = Array(gameBoardSizeX) { row -> Array(gameBoardSizeY) { column ->
-        Tile(
-            row,
-            column,
-            defaultTileType
-        )
-    } }
+    private val tiles: Array<Array<Tile>> = Array(gameBoardSizeX) { row ->
+        Array(gameBoardSizeY) { column ->
+            Tile(
+                row,
+                column,
+                defaultTileType
+            )
+        }
+    }
+
+    override fun drawGame(target: EventTarget, gameData: ObservableList<String>) {
+        target.anchorpane() {
+            datagrid(gameData) {
+                style {
+                    fontWeight = FontWeight.EXTRA_BOLD
+                    borderColor += box(
+                        top = Color.RED,
+                        right = Color.DARKGREEN,
+                        left = Color.ORANGE,
+                        bottom = Color.PURPLE
+                    )
+                }
+
+                anchorpaneConstraints { leftAnchor = 5.0; topAnchor = 5.0 }
+
+                horizontalCellSpacing = 1.0
+                verticalCellSpacing = 1.0
+
+                cellHeight = 50.0
+                cellWidth = 50.0
+
+                prefHeight = gameBoardSizeY * cellHeight + 50
+                prefWidth = gameBoardSizeX * cellWidth + 50
+
+                maxCellsInRow = gameBoardSizeX
+
+                // The actual cell value
+                cellFormat {
+                    graphic = cache {
+                        label(it) { }
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Gets the tile at the given coordinates
@@ -40,7 +82,7 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
      * @return true if there is a tile, false if there is no tile
      */
     fun isTileAt(x: Int, y: Int): Boolean {
-        if(x < 0 || x >= gameBoardSizeX || y < 0 || y >= gameBoardSizeY) {
+        if (x < 0 || x >= gameBoardSizeX || y < 0 || y >= gameBoardSizeY) {
             return false
         }
         return true
@@ -60,14 +102,22 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
         var newY = tileY
 
         when (absoluteDirection) {
-            AbsoluteDirection.UP -> { newY-- }
-            AbsoluteDirection.RIGHT -> { newX++ }
-            AbsoluteDirection.DOWN -> { newY++ }
-            AbsoluteDirection.LEFT -> { newX-- }
+            AbsoluteDirection.UP -> {
+                newY--
+            }
+            AbsoluteDirection.RIGHT -> {
+                newX++
+            }
+            AbsoluteDirection.DOWN -> {
+                newY++
+            }
+            AbsoluteDirection.LEFT -> {
+                newX--
+            }
         }
 
         // Return either the tile or null if there is no tile in this direction
-        if(isTileAt(newX, newY)) return getTileAt(newX, newY)
+        if (isTileAt(newX, newY)) return getTileAt(newX, newY)
         return null
     }
 
@@ -88,21 +138,21 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
      * Returns all tiles of the given row
      */
     fun getTilesOfRow(row: Int): Array<Tile> {
-        return Array(gameBoardSizeX) {currentX -> getTileAt(currentX, row)}
+        return Array(gameBoardSizeX) { currentX -> getTileAt(currentX, row) }
     }
 
     /**
      * Returns all tiles of the given col
      */
     fun getTilesOfCol(col: Int): Array<Tile> {
-        return Array(gameBoardSizeY) {currentY -> getTileAt(col, currentY)}
+        return Array(gameBoardSizeY) { currentY -> getTileAt(col, currentY) }
     }
 
     /**
      * Returns all tiles in order
      */
     fun getAllTilesInOrder(): Array<Tile> {
-        return Array(gameBoardSizeX * gameBoardSizeY) {id ->
+        return Array(gameBoardSizeX * gameBoardSizeY) { id ->
             val currX = id / gameBoardSizeX
             val currY = id % gameBoardSizeY
             getTileAt(currX, currY)

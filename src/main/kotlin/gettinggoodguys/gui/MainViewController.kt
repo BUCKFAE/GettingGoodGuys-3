@@ -4,6 +4,7 @@ import gettinggoodguys.games.tilebased.TileBasedGame
 import gettinggoodguys.loop.AIMainLoop
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
+import javafx.event.EventTarget
 import tornadofx.Controller
 
 class MainViewController : Controller() {
@@ -21,6 +22,22 @@ class MainViewController : Controller() {
      */
     val gameData: ObservableList<ObservableList<String>> = FXCollections.observableArrayList()
 
+    fun drawGame(index: Int, target: EventTarget) {
+        //show alive games first then dead games
+        if (index !in gameData.indices) {
+            return
+        }
+        if (index in aiMainLoop.aliveControllers.indices) {
+            val index = aiMainLoop.aliveControllers[index]
+            aiMainLoop.controllerArrayList[index].game.drawGame(target, gameData[index])
+        } else {
+            val index = index - aiMainLoop.aliveControllers.size
+            if (index in aiMainLoop.deadControllers.indices) {
+                val index = aiMainLoop.deadControllers[index]
+                aiMainLoop.controllerArrayList[index].game.drawGame(target, gameData[index])
+            }
+        }
+    }
 
     fun stepGames() {
         aiMainLoop.stepLoop()
