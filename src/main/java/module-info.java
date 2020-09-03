@@ -6,6 +6,7 @@ module GettingGoodGuys.main {
 
     requires tornadofx;
     requires kotlin.stdlib;
+    requires kotlinx.coroutines.core.jvm;
     opens gettinggoodguys.gui;
 
 
