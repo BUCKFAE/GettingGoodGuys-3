@@ -14,8 +14,8 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
         this.useMaxSize
 
         center {
-            borderpane {
-                center = flowpane {
+            scrollpane {
+                flowpane {
 
                     // Style of the flowpane
                     style {
@@ -34,13 +34,10 @@ class MainView : View("Getting Good Guys - by BUCKFAE") {
                     for (dataGridID in 0 until controller.gamesToDisplay) {
                         controller.drawGame(dataGridID, this)
                     }
-
-
                 }
-
             }
-
         }
+
         bottom = borderpane {
             center = vbox {
                 button(" Step ") {
