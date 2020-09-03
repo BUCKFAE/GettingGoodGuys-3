@@ -9,7 +9,7 @@ import java.util.concurrent.Executors
 
 class AIMainLoop : MainLoop {
 
-    private val amountOfGames = 5
+    private val amountOfGames = 10
 
     val controllerArrayList = ArrayList<AIGameController>()
     val aliveControllers = ArrayList<Int>()
@@ -19,6 +19,7 @@ class AIMainLoop : MainLoop {
     init {
         for (currentGame in 1..amountOfGames) {
             val currentRandomSnakeController = SnakeRandomAIGameController()
+            currentRandomSnakeController.game.gameID = currentGame
             controllerArrayList.add(currentRandomSnakeController)
             aliveControllers.add(currentGame - 1)
         }
@@ -48,6 +49,9 @@ class AIMainLoop : MainLoop {
 
             // Makes the first controller create a new population based on the current one
             controllerArrayList[0].createNewGeneration(controllerArrayList)
+            for (index in controllerArrayList.indices) {
+                controllerArrayList[index].game.gameID = index + 1
+            }
             aliveControllers.clear()
             deadControllers.clear()
             for (index in controllerArrayList.indices) {
@@ -60,7 +64,7 @@ class AIMainLoop : MainLoop {
         }
 
         runBlocking {
-            val request = launch {
+            val request = launch(dispatcher) {
                 println("[Debug]> All games start stepping")
                 for (index in aliveControllers) {
                     launch(dispatcher) {

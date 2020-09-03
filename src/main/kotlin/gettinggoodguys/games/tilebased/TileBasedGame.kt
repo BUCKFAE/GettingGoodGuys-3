@@ -5,6 +5,8 @@ import gettinggoodguys.games.movement.directions.AbsoluteDirection
 import gettinggoodguys.games.tilebased.tile.NoTileAtCoordinatesException
 import gettinggoodguys.games.tilebased.tile.Tile
 import gettinggoodguys.games.tilebased.tile.TileType
+import javafx.beans.binding.Bindings
+import javafx.beans.property.IntegerProperty
 import javafx.collections.ObservableList
 import javafx.event.EventTarget
 import javafx.scene.paint.Color
@@ -13,6 +15,8 @@ import tornadofx.*
 import kotlin.random.Random
 
 abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, defaultTileType: TileType) : Game {
+
+    override var gameID: Int? = -1
 
     // Stores all tiles of the gameBoard
     /**
@@ -49,34 +53,43 @@ abstract class TileBasedGame(val gameBoardSizeX: Int, val gameBoardSizeY: Int, d
     }
 
     override fun drawGame(target: EventTarget, gameData: ObservableList<String>) {
+        drawGame(target, gameData, null)
+    }
+
+    override fun drawGame(target: EventTarget, gameData: ObservableList<String>, gameID: IntegerProperty?) {
         with(target) {
-            datagrid(gameData) {
-                paddingLeft = 10.0
-                paddingRight = 0.0
-                paddingTop = 10.0
-                paddingBottom = 0.0
-
-                style {
-                    fontWeight = FontWeight.EXTRA_BOLD
-                    borderColor += box(
-                        top = Color.RED,
-                        right = Color.DARKGREEN,
-                        left = Color.ORANGE,
-                        bottom = Color.PURPLE
-                    )
+            vbox {
+                if (gameID != null && gameID > 0) {
+                    label("Game: ${gameID.value}") { textProperty().bind(Bindings.concat("Game: ").concat(gameID)) }
                 }
-                horizontalCellSpacing = 1.0
-                verticalCellSpacing = 1.0
+                datagrid(gameData) {
+                    paddingLeft = 10.0
+                    paddingRight = 0.0
+                    paddingTop = 10.0
+                    paddingBottom = 0.0
 
-                cellHeight = 50.0
-                cellWidth = 50.0
-                prefHeight = gameBoardSizeY * cellHeight + 20 + (gameBoardSizeY + 2) * verticalCellSpacing
-                prefWidth = gameBoardSizeX * cellWidth + 20 + (gameBoardSizeX + 2) * horizontalCellSpacing
+                    style {
+                        fontWeight = FontWeight.EXTRA_BOLD
+                        borderColor += box(
+                            top = Color.RED,
+                            right = Color.DARKGREEN,
+                            left = Color.ORANGE,
+                            bottom = Color.PURPLE
+                        )
+                    }
+                    horizontalCellSpacing = 1.0
+                    verticalCellSpacing = 1.0
 
-                maxCellsInRow = gameBoardSizeX
+                    cellHeight = 50.0
+                    cellWidth = 50.0
+                    prefHeight = gameBoardSizeY * cellHeight + 20 + (gameBoardSizeY + 2) * verticalCellSpacing
+                    prefWidth = gameBoardSizeX * cellWidth + 20 + (gameBoardSizeX + 2) * horizontalCellSpacing
 
-                // The actual cell value
-                gameCellFormat()
+                    maxCellsInRow = gameBoardSizeX
+
+                    // The actual cell value
+                    gameCellFormat()
+                }
             }
         }
     }

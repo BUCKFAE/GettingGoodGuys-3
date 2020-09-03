@@ -1,9 +1,12 @@
 package gettinggoodguys.games
 
+import javafx.beans.property.IntegerProperty
 import javafx.collections.ObservableList
 import javafx.event.EventTarget
 
 interface Game {
+
+    var gameID: Int?
 
     /**
      * Performs one step in the given Game
@@ -17,4 +20,5 @@ interface Game {
      */
     fun drawGame(target: EventTarget)
     fun drawGame(target: EventTarget, gameData: ObservableList<String>)
+    fun drawGame(target: EventTarget, gameData: ObservableList<String>, gameID: IntegerProperty?)
 }

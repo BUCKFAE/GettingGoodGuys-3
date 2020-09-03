@@ -3,10 +3,12 @@ package gettinggoodguys.gui
 import gettinggoodguys.controller.ai.AIGameController
 import gettinggoodguys.games.tilebased.TileBasedGame
 import gettinggoodguys.loop.AIMainLoop
+import javafx.beans.property.SimpleIntegerProperty
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.event.EventTarget
 import tornadofx.Controller
+import java.lang.Integer.min
 
 class MainViewController : Controller() {
 
@@ -14,7 +16,7 @@ class MainViewController : Controller() {
 
     // Stores how many games we should display
     // TODO: Make this independent from the amount of games we have in total
-    val gamesToDisplay = aiMainLoop.controllerArrayList.size
+    val gamesToDisplay = min(10, aiMainLoop.controllerArrayList.size)
 
     val gameSizeX = 3
 
@@ -23,11 +25,13 @@ class MainViewController : Controller() {
      */
     val gameData: ObservableList<ObservableList<String>> = FXCollections.observableArrayList()
 
+    val gameIDs: MutableList<SimpleIntegerProperty> = ArrayList()
+
     fun drawGame(index: Int, target: EventTarget) {
         if (index !in gameData.indices) {
             return
         }
-        aiMainLoop.controllerArrayList[index].game.drawGame(target, gameData[index])
+        aiMainLoop.controllerArrayList[index].game.drawGame(target, gameData[index], gameIDs[index])
     }
 
     fun stepGames() {
@@ -37,11 +41,8 @@ class MainViewController : Controller() {
     /**
      * Returns the [index]th living controller, if no such controller exists returns a dead controller with deadIndex = index - livingAmount
      */
-    private fun getLivingThenDeadController(index: Int): AIGameController? {
+    private fun getLivingThenDeadControllerIndex(index: Int): AIGameController? {
         //show alive games first then dead games
-        if (index !in gameData.indices) {
-            return null
-        }
         println("[debug]> Index: $index")
         if (index in aiMainLoop.aliveControllers.indices) {
             val index = aiMainLoop.aliveControllers[index]
@@ -60,13 +61,15 @@ class MainViewController : Controller() {
         return null
     }
 
+    private val controllers = ArrayList<AIGameController>()
+
     fun updateGames() {
 
         // Adding gameData for all Games
-        for (currentControllerID in 0 until gamesToDisplay) {
+        for (currentControllerID in 0 until controllers.size) {
 
             // Storing the current game for easy access
-            val currentTileBasedGame = aiMainLoop.controllerArrayList[currentControllerID].game as TileBasedGame
+            val currentTileBasedGame = controllers[currentControllerID].game as TileBasedGame
 
             var currentItemID = 0
 
@@ -90,11 +93,23 @@ class MainViewController : Controller() {
 
                     currentItemID++
                 }
-
             }
-
         }
+        updateLivingDeadControllers()
+    }
 
+    /**
+     * update the controllers list so that we have as much living controllers as possible
+     * and only if there are not enough to only display living fill it with dead ones
+     */
+    private fun updateLivingDeadControllers() {
+        controllers.clear()
+        for (index in 0 until gamesToDisplay) {
+            val controller = getLivingThenDeadControllerIndex(index) ?: break
+            controllers.add(controller)
+            val gameID = controller.game.gameID ?: -1
+            gameIDs[index].set(gameID)
+        }
     }
 
     fun initGameData() {
@@ -103,10 +118,10 @@ class MainViewController : Controller() {
 
             val currentGameDataArrayList: ObservableList<String> = FXCollections.observableArrayList()
 
+            //get current controller, if no such controller exists break because there are no controllers left
+            val currentController = getLivingThenDeadControllerIndex(currentGameID) ?: break
             // Storing the current game for easy access
-            val currentTileBasedGame: TileBasedGame =
-                aiMainLoop.controllerArrayList[currentGameID].game as TileBasedGame
-
+            val currentTileBasedGame: TileBasedGame = currentController.game as TileBasedGame
 
             // Adding the info to the current gameData
             for (currentY in 0 until currentTileBasedGame.gameBoardSizeY) {
@@ -116,6 +131,8 @@ class MainViewController : Controller() {
             }
 
             gameData.add(currentGameDataArrayList)
+            controllers.add(currentController)
+            gameIDs.add(SimpleIntegerProperty(currentController.game.gameID ?: -1))
         }
 
         updateGames()
