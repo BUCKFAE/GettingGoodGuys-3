@@ -16,7 +16,7 @@ class MainViewController : Controller() {
 
     // Stores how many games we should display
     // TODO: Make this independent from the amount of games we have in total
-    val gamesToDisplay = min(10, aiMainLoop.controllerArrayList.size)
+    val gamesToDisplay = min(5, aiMainLoop.controllerArrayList.size)
 
     val gameSizeX = 3
 
@@ -38,28 +38,6 @@ class MainViewController : Controller() {
         aiMainLoop.stepLoop()
     }
 
-    /**
-     * Returns the [index]th living controller, if no such controller exists returns a dead controller with deadIndex = index - livingAmount
-     */
-    private fun getLivingThenDeadControllerIndex(index: Int): AIGameController? {
-        //show alive games first then dead games
-        println("[debug]> Index: $index")
-        if (index in aiMainLoop.aliveControllers.indices) {
-            val index = aiMainLoop.aliveControllers[index]
-            println("[debug]> AliveIndex: $index")
-            return aiMainLoop.controllerArrayList[index]
-        } else {
-            val index = index - aiMainLoop.aliveControllers.size
-            if (index in aiMainLoop.deadControllers.indices) {
-                val index = aiMainLoop.deadControllers[index]
-                println("[debug]> DeadIndex: $index")
-                return aiMainLoop.controllerArrayList[index]
-            } else {
-                println("$index not in ${aiMainLoop.deadControllers.indices}")
-            }
-        }
-        return null
-    }
 
     private val controllers = ArrayList<AIGameController>()
 
@@ -70,6 +48,8 @@ class MainViewController : Controller() {
 
             // Storing the current game for easy access
             val currentTileBasedGame = controllers[currentControllerID].game as TileBasedGame
+            gameIDs[currentControllerID].set(currentTileBasedGame.gameID ?: -1)
+
 
             var currentItemID = 0
 
@@ -98,28 +78,41 @@ class MainViewController : Controller() {
         updateLivingDeadControllers()
     }
 
+
     /**
      * update the controllers list so that we have as much living controllers as possible
      * and only if there are not enough to only display living fill it with dead ones
      */
     private fun updateLivingDeadControllers() {
-        controllers.clear()
         for (index in 0 until gamesToDisplay) {
-            val controller = getLivingThenDeadControllerIndex(index) ?: break
-            controllers.add(controller)
-            val gameID = controller.game.gameID ?: -1
-            gameIDs[index].set(gameID)
+            val controller = controllers[index]
+            if (!controller.game.isAlive()) {
+                controllers.removeAt(index)
+                //Todo better check? for perfomance reasons
+                val newController =
+                    aiMainLoop.aliveControllers.firstOrNull { aiMainLoop.controllerArrayList[it] !in controllers }
+                        ?.let { aiMainLoop.controllerArrayList[it] }
+                        ?: aiMainLoop.deadControllers.first { aiMainLoop.controllerArrayList[it] !in controllers }
+                            .let { aiMainLoop.controllerArrayList[it] }
+                controllers.add(index, newController)
+                val gameID = newController.game.gameID ?: -1
+                gameIDs[index].set(gameID)
+            }
         }
     }
 
     fun initGameData() {
 
         for (currentGameID in 0 until gamesToDisplay) {
+            if (currentGameID !in aiMainLoop.controllerArrayList.indices) {
+                break
+            }
 
             val currentGameDataArrayList: ObservableList<String> = FXCollections.observableArrayList()
 
             //get current controller, if no such controller exists break because there are no controllers left
-            val currentController = getLivingThenDeadControllerIndex(currentGameID) ?: break
+            val currentController = aiMainLoop.controllerArrayList[currentGameID]
+
             // Storing the current game for easy access
             val currentTileBasedGame: TileBasedGame = currentController.game as TileBasedGame
 
